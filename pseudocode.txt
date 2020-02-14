@@ -37,3 +37,4 @@ Stretch goal: fun fact box after each answer submission
 Stretch goal: @ beginning of quiz load, ensure even mix of african/asian species
 Stretch goal: share results to twitter at end with an elephant pic??? maybe?
 Stretch goal: loading screen? - make the elephant icon walk the question div across the screen
+Stretch goal: quiz click corner to chang colour scheme
