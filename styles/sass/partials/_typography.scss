@@ -1,0 +1,16 @@
+h1 {
+    font-size: 6rem;
+    margin-top: 15%;
+    text-decoration: underline;
+    text-decoration-color: $accent;
+    text-decoration-thickness: 10px;
+}
+
+h1, h2 {
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 5%;
+}

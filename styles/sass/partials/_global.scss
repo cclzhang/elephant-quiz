@@ -1,0 +1,134 @@
+header {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+
+    .titleScreen {
+        background: $primary;
+        width: 100%;
+        height: 90%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 7%;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px $black;
+
+        img {
+            width: 25%;
+            position: absolute;
+            animation: 10s linear infinite elephantWalk;
+        }
+    }
+}
+
+button {
+    display: inline-block;
+    margin: 0 auto;
+    border: none;
+    background: $accent;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+main {
+    height: 90vh;
+    display: none;
+
+    .questionScreen,
+    .hintToaster,
+    .infoCard,
+    .scoreScreen {
+        display: none;
+    }
+
+    .questionScreen,
+    .infoCard,
+    .scoreScreen {
+        height: 90%;
+    }
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+}
+
+@keyframes elephantWalk {
+    0% {
+        bottom: 0;
+        right: -25%;
+    }
+
+    6% {
+        transform: rotate(5deg);
+    }
+
+    12% {
+        transform: rotate(0);
+    }
+
+    18% {
+        transform: rotate(-5deg);
+    }
+
+    25% {
+        transform: rotate(0);
+    }
+
+    31% {
+        transform: rotate(5deg);
+    }
+
+    37% {
+        transform: rotate(0);
+    }
+
+    43% {
+        transform: rotate(-5deg);
+    }
+
+    50% {
+        bottom: 0;
+        right: 40%;
+        transform: rotate(0);
+    }
+
+    56% {
+        transform: rotate(5deg);
+    }
+
+    62% {
+        transform: rotate(0);
+    }
+
+    68% {
+        transform: rotate(-5deg);
+    }
+
+    75% {
+        transform: rotate(0);
+    }
+
+    81% {
+        transform: rotate(5deg);
+    }
+
+    87% {
+        transform: rotate(0);
+    }
+
+    93% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        bottom: 0;
+        right: 100%;
+        transform: rotate(0);
+    }
+}

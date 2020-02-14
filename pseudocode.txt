@@ -35,3 +35,5 @@ Stretch goal: final message generator based on score
 Stretch goal: hint box with hints generated from api data
 Stretch goal: fun fact box after each answer submission
 Stretch goal: @ beginning of quiz load, ensure even mix of african/asian species
+Stretch goal: share results to twitter at end with an elephant pic??? maybe?
+Stretch goal: loading screen? - make the elephant icon walk the question div across the screen
