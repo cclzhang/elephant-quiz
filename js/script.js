@@ -63,17 +63,22 @@ eQuiz.getE = () => {
     }).then(function (data) {
         console.log('firing api');
         eQuiz.gatherE(data);
-        eQuiz.gatherFakeAns(data);
+        eQuiz.gatherNameLocationList(data);
     });
 };
 
 eQuiz.shuffle = function (tempArray, originalArray) {
     while (tempArray.length < originalArray.length) {
+        console.log('entering while loop');
         this.randIndex = Math.floor(Math.random() * originalArray.length);
+        console.log('randIndex: ' + this.randIndex)
         if (tempArray.includes(originalArray[this.randIndex]) === false) {
+            console.log('entering if statement');
             tempArray.push(originalArray[this.randIndex]);
         }
+        console.log('exiting if statement');
     }
+    console.log('exiting while loop');
 }
 
 
@@ -170,42 +175,47 @@ eQuiz.getSpecies = function() {
     console.log("getSpecies")
     eQuiz.ansArray = ["Asian", "African", "Hybrid"]
 }
-//////////////////////////////////////////////////////////////
+
+
+eQuiz.gatherNameLocationList = function(data) {
+    eQuiz.namesList = [];
+    eQuiz.locationList = [];
+    //gather names
+    data.forEach(function(elephant) {
+        //checks to make sure there's info in the data set
+        if (typeof elephant.name === 'string') {
+            eQuiz.namesList.push(elephant.name);
+        }
+    });
+    //gather locations
+    data.forEach(function(elephant) {
+        //checks to make sure there's info in the data set
+        if (typeof elephant.affiliation === 'string') {
+            eQuiz.locationList.push(elephant.affiliation);
+        }
+    });
+}
+/////////////////////////////
 
 eQuiz.getNames = function() {
+    eQuiz.ansArray = [];
+    let tempNamesList = [];
+    eQuiz.shuffle(tempNamesList, eQuiz.namesList);
+    // eQuiz.ansArray = tempNamesList.slice(0, 3);
     //grab correct elephant name
     eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
-    
     // grab 3 incorrect elephant names
-    for (let i = 0; i < 4; i++) {
-        eQuiz.ansArray.push(eQuiz.randomize(eQuiz.fakeNames));
-        //future error handling: we need to make sure no doubles with an includes check maybe?
-    }
+    // for (let i = 0; i < 4; i++) {
+    //     eQuiz.ansArray.push(eQuiz.shuffle(eQuiz.namesList));
+    //     //future error handling: we need to make sure no doubles with an includes check maybe?
+    // }
+    // add an if statement if fake answer = real answer, do not push
 }
 
 eQuiz.getLocations = function() {
     console.log("location");
 }
 
-eQuiz.gatherFakeAns = function(data) {
-    //gather names
-    data.forEach(function(elephant) {
-        //checks to make sure there's info in the data set
-        if (typeof elephant.name === 'string') {
-            eQuiz.fakeNames = [];
-            eQuiz.fakeNames.push(elephant.name);
-        }
-        // add an if statement if fake answer = real answer, do not push
-    });
-    //gather locations
-    data.forEach(function(elephant) {
-        //checks to make sure there's info in the data set
-        if (typeof elephant.affiliation === 'string') {
-            eQuiz.fakeLocations = [];
-            eQuiz.fakeLocations.push(elephant.affiliation);
-        }
-    });
-}
 
 eQuiz.ansHtmlToAdd = function() {
 
