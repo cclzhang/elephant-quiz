@@ -2,18 +2,49 @@ const eQuiz = {};
 
 // doc ready
 $(()=>{
+    console.log('doc ready');
     eQuiz.init();
 });
 
 // eQuiz initialization
 eQuiz.init = () => {
+    console.log('init fired');
     eQuiz.getE();
     eQuiz.getDom();
     eQuiz.setGlobal();
     eQuiz.listenUp();
-
+    
 };
 
+//set global variables
+eQuiz.setGlobal = function() {
+    //variable to work through the shuffledE array properly when assigning answers
+    eQuiz.qNum = 0;
+    //variable to assign answer set for the current question
+    eQuiz.ansArray = [];
+    eQuiz.randIndex = 0;
+}
+
+// Dom nodes into variables
+eQuiz.getDom = () => {
+    eQuiz.$header = $("header");
+    eQuiz.$startB = $(".start");
+    eQuiz.$main = $("main");
+    // 
+    eQuiz.$qScreen = $(".questionScreen");
+    eQuiz.$questionForm = $(".question");
+    eQuiz.$hintToaster = $(".hintToaster");
+    // 
+    eQuiz.$infoCard = $(".infoCard");
+    // 
+    eQuiz.$scoreScreen = $(".scoreScreen");
+};
+
+
+//set up event listeners
+eQuiz.listenUp = function() {
+    eQuiz.$startB.on('click', eQuiz.startQuiz);
+}
 // E = elephant
 // use ajax to get the API
 eQuiz.getE = () => {
@@ -30,12 +61,28 @@ eQuiz.getE = () => {
             useCache: false
         }
     }).then(function (data) {
+        console.log('firing api');
         eQuiz.gatherE(data);
         eQuiz.gatherFakeAns(data);
     });
 };
 
+eQuiz.shuffle = function (tempArray, originalArray) {
+    while (tempArray.length < originalArray.length) {
+        this.randIndex = Math.floor(Math.random() * originalArray.length);
+        if (tempArray.includes(originalArray[this.randIndex]) === false) {
+            tempArray.push(originalArray[this.randIndex]);
+        }
+    }
+}
+
+
+eQuiz.randomize = (array) => {
+    return array[Math.floor(Math.random() * array.length)];
+};
+
 eQuiz.gatherE = function(data) {
+    console.log('gathering elephants together');
     eQuiz.arrayOfE = [];
     data.forEach(function(elephant) {
         //process complete data only into array
@@ -43,12 +90,102 @@ eQuiz.gatherE = function(data) {
             eQuiz.arrayOfE.push({name: elephant.name, affiliation: elephant.affiliation, species: elephant.species, sex: elephant.sex, image: elephant.image, note: elephant.note});
         }
     });
-    //randomly select 5 elephants for 5 questions
+    //randomize array of elephants
+    console.log('shuffling elephants');
     eQuiz.shuffledE = [];
     eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
 }
 
 
+//start the quiz
+eQuiz.startQuiz = function() {
+    console.log('quiz has been fired');
+    //show/hide screens
+    eQuiz.$header.hide();
+    eQuiz.$main.show();
+    eQuiz.$qScreen.show();
+    eQuiz.$hintToaster.show();
+    //set question & answers
+    eQuiz.nextQ();
+    //load question
+    // eQuiz.ansHtmlToAdd();
+    // eQuiz.hintHtmlToAdd();
+    // eQuiz.compileHtmlDom();
+    // eQuiz.ansArray.forEach(function (item) {
+    //     eQuiz.$questionForm.html(`
+    //     <input type="radio" name="" id="">
+    //     <label for="">${item}</label>
+    //     `);
+    // });
+
+
+    // eQuiz.$questionForm.html(htmlToAdd);
+    //load hint
+}
+
+//////////////////////////////////////////////////////////////// DONEEEEE
+// question section
+eQuiz.qBank = ["What is my sex?", "What species am I?", "What is my name?", "Where am I from?"];
+
+eQuiz.setQ = function() {
+    console.log('question being set');
+    eQuiz.currentQ = eQuiz.randomize(eQuiz.qBank);
+    console.log('question set: ' + eQuiz.currentQ);
+};
+
+eQuiz.nextQ = function() {
+    eQuiz.ansArray = [];
+    eQuiz.setQ();
+    eQuiz.setA();
+    eQuiz.qNum++;
+    //if statement to check if quiz is over
+}
+/////////////////////////////////////////////////////////////////
+
+
+
+// answer section
+eQuiz.setA = function() {
+    if (eQuiz.currentQ === "What is my sex?") {
+        eQuiz.getSex();
+    } else if (eQuiz.currentQ === "What species am I?") {
+        eQuiz.getSpecies();
+    } else if (eQuiz.currentQ === "What is my name?") {
+        eQuiz.getNames();
+    } else if (eQuiz.currentQ === "Where am I from?") {
+        eQuiz.getLocations();
+    }
+}
+
+eQuiz.rightAnswer;
+eQuiz.wrongAnswer;
+
+//////////////////////////////////////////////////////////////
+// set answer array if question was what is my sex?
+eQuiz.getSex = function() {
+    eQuiz.ansArray = ["cow", "bull"]
+}
+// set species array if question was what is my species?
+eQuiz.getSpecies = function() {
+    console.log("getSpecies")
+    eQuiz.ansArray = ["Asian", "African", "Hybrid"]
+}
+//////////////////////////////////////////////////////////////
+
+eQuiz.getNames = function() {
+    //grab correct elephant name
+    eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
+    
+    // grab 3 incorrect elephant names
+    for (let i = 0; i < 4; i++) {
+        eQuiz.ansArray.push(eQuiz.randomize(eQuiz.fakeNames));
+        //future error handling: we need to make sure no doubles with an includes check maybe?
+    }
+}
+
+eQuiz.getLocations = function() {
+    console.log("location");
+}
 
 eQuiz.gatherFakeAns = function(data) {
     //gather names
@@ -70,141 +207,24 @@ eQuiz.gatherFakeAns = function(data) {
     });
 }
 
-// Dom nodes into variables
-eQuiz.getDom = () => {
-    eQuiz.$header = $("header");
-    eQuiz.$startB = $(".start");
-    eQuiz.$main = $("main");
-    // 
-    eQuiz.$qScreen = $(".questionScreen");
-    eQuiz.$questionForm = $(".question");
-    eQuiz.$hintToaster = $(".hintToaster");
-    // 
-    eQuiz.$infoCard = $(".infoCard");
-    // 
-    eQuiz.$scoreScreen = $(".scoreScreen");
-};
+eQuiz.ansHtmlToAdd = function() {
 
-//set global variables
-eQuiz.setGlobal = function() {
-    //variable to work through the shuffledE array properly when assigning answers
-    eQuiz.qNum = 0;
-    //variable to assign answer set for the current question
-    eQuiz.ansArray = ["baby", "toddler"];
-    eQuiz.randIndex = 0;
 }
-
-//set up event listeners
-eQuiz.listenUp = function() {
-    eQuiz.$startB.on('click', eQuiz.startQuiz);
-}
-
-//start the quiz
-eQuiz.startQuiz = function() {
-    //show/hide screens
-    eQuiz.$header.hide();
-    eQuiz.$main.show();
-    eQuiz.$qScreen.show();
-    eQuiz.$hintToaster.show();
-    //set question & answers
-    eQuiz.setQ();
-    eQuiz.setA();
-    //load question
-    // const radioHtml = "";
-    
-
-    eQuiz.ansArray.forEach(function (item) {
-        eQuiz.$questionForm.html(`
-            <input type="radio" name="" id="">
-            <label for="">${item}</label>
-        `);
-    });
-    console.log("hi");
-    const answerHtml = `
+//html section
+eQuiz.compileHtmlDom = function() {
+    const formToAdd = `
+        <h3>${eQuiz.currentQ}</h3>
+        <div>
+            <img src="${eQuiz.shuffledE[eQuiz.qNum].image}" alt="">
+        </div>
+    `;
+    const hintToAdd = `
 
     `;
-    const htmlToAdd = `
-
-    `;
-    eQuiz.$questionForm.html(htmlToAdd);
-    //load hint
-}
-
-eQuiz.nextQ = function() {
-    eQuiz.qNum++;
-    eQuiz.setQ();
-    eQuiz.setA();
-    //if statement to check if quiz is over
-}
-
-eQuiz.qBank = ["What is my sex?", "What species am I?", "What is my name?", "Where am I from?"];
-
-eQuiz.setQ = function() {
-    eQuiz.currentQ = eQuiz.randomize(eQuiz.qBank);
-};
-
-
-
-eQuiz.setA = function() {
-    if (eQuiz.currentQ === "What is my sex?") {
-        eQuiz.getSex();
-    } else if (eQuiz.currentQ === "What species am I?") {
-        eQuiz.getSpecies();
-    } else if (eQuiz.currentQ === "What is my name?") {
-        eQuiz.getNames();
-    } else if (eQuiz.currentQ === "Where am I from?") {
-        eQuiz.getLocations();
-    }
-}
-
-eQuiz.getSex = function() {
-    // set 2, validate chosen answer
-    console.log("sex")
-}
-
-eQuiz.getSpecies = function() {
-    // set 3, validate chosen answer
-    console.log("getSpecies")
-}
-
-eQuiz.getNames = function() {
-    //grab correct elephant name
-    eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
-
-    // grab 3 incorrect elephant names
-    for (let i = 0; i < 4; i++) {
-        eQuiz.ansArray.push(eQuiz.randomize(eQuiz.fakeNames));
-        //future error handling: we need to make sure no doubles with an includes check maybe?
-    }
-
-
-
-    console.log(eQuiz.ansArray);
     
+    //put on DOM
+
 }
-
-eQuiz.getLocations = function() {
-    console.log("location");
-}
-
-
-
-eQuiz.shuffle = function (tempArray, originalArray) {
-    while (tempArray.length < originalArray.length) {
-        this.randIndex = Math.floor(Math.random() * originalArray.length);
-        if (tempArray.includes(originalArray[this.randIndex]) === false) {
-            tempArray.push(originalArray[this.randIndex]);
-        }
-    }
-}
-
-// original array = all elephants from API
-// new array = 5 chosen random elephants that don't repeat
-// generate a random number
-
-eQuiz.randomize = (array) => {
-    return array[Math.floor(Math.random() * array.length)];
-};
 
 // // q1 = 
 // // a = bull, cow
@@ -216,3 +236,8 @@ eQuiz.randomize = (array) => {
 // // a = 3 fake 1 real OR a2 = circus, national park, zoo, the wild
 
 
+    // if (eQuiz.shuffledE[eQuiz.qNum].sex === "Female") {
+    //     eQuiz.rightAnswer = "cow";
+    // } else {
+    //     eQuiz.rightAnswer = "bull";
+    // }
