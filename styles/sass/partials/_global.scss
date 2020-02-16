@@ -49,6 +49,34 @@ main {
     .scoreScreen {
         height: 90%;
     }
+
+    .questionScreen {
+        background: $primary;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 90%;
+        position: relative;
+        padding: 7%;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px $black;
+
+        img {
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .questionLayout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .answerLayout {
+            display: flex;
+            flex-direction: column;
+        }
+    }
 }
 
 footer {

@@ -23,6 +23,8 @@ eQuiz.setGlobal = function() {
     //variable to assign answer set for the current question
     eQuiz.ansArray = [];
     eQuiz.randIndex = 0;
+    //score counter
+    eQuiz.score = 0;
 }
 
 // Dom nodes into variables
@@ -44,7 +46,9 @@ eQuiz.getDom = () => {
 //set up event listeners
 eQuiz.listenUp = function() {
     eQuiz.$startB.on('click', eQuiz.startQuiz);
+    eQuiz.$questionForm.on('submit', '.next', eQuiz.nextQ);
 }
+
 // E = elephant
 // use ajax to get the API
 eQuiz.getE = () => {
@@ -113,19 +117,8 @@ eQuiz.startQuiz = function() {
     //set question & answers
     eQuiz.nextQ();
     //load question
-    // eQuiz.ansHtmlToAdd();
-    // eQuiz.hintHtmlToAdd();
-    // eQuiz.compileHtmlDom();
-    // eQuiz.ansArray.forEach(function (item) {
-    //     eQuiz.$questionForm.html(`
-    //     <input type="radio" name="" id="">
-    //     <label for="">${item}</label>
-    //     `);
-    // });
-
-
-    // eQuiz.$questionForm.html(htmlToAdd);
-    //load hint
+    eQuiz.ansHtmlToAdd();
+    eQuiz.compileHtmlDom();
 }
 
 //////////////////////////////////////////////////////////////// DONEEEEE
@@ -139,43 +132,59 @@ eQuiz.setQ = function() {
 };
 
 eQuiz.nextQ = function() {
+    // e.preventDefault();
+    //if statement to check if quiz is over or is beginning
+    if (eQuiz.qNum === 4) {
+        eQuiz.endQuiz();
+    } else {
+        //validate answer of q
+        console.log(eQuiz.$questionForm.val());
+        if (eQuiz.$questionForm.val() === eQuiz.correctAns) {
+            eQuiz.score++;
+        }
+        eQuiz.quizInit();
+    }
+}
+/////////////////////////////////////////////////////////////////
+
+eQuiz.quizInit = function() {
     eQuiz.ansArray = [];
     eQuiz.setQ();
     eQuiz.setA();
     eQuiz.qNum++;
-    //if statement to check if quiz is over
+    //load question
+    eQuiz.ansHtmlToAdd();
+    eQuiz.compileHtmlDom();
 }
-/////////////////////////////////////////////////////////////////
-
-
 
 // answer section
 eQuiz.setA = function() {
     if (eQuiz.currentQ === "What is my sex?") {
         eQuiz.getSex();
+        eQuiz.hintText = `My name is ${eQuiz.shuffledE[eQuiz.qNum].name}!`;
     } else if (eQuiz.currentQ === "What species am I?") {
         eQuiz.getSpecies();
+        eQuiz.hintText = `I'm from ${eQuiz.shuffledE[eQuiz.qNum].affiliation}!`;
     } else if (eQuiz.currentQ === "What is my name?") {
         eQuiz.getNames();
+        eQuiz.hintText = `I'm a ${(eQuiz.shuffledE[eQuiz.qNum].sex).toLowerCase()}!`;
     } else if (eQuiz.currentQ === "Where am I from?") {
         eQuiz.getLocations();
+        eQuiz.hintText = `I'm an ${eQuiz.shuffledE[eQuiz.qNum].species} elephant!`;
     }
 }
-
-eQuiz.rightAnswer;
-eQuiz.wrongAnswer;
 
 //////////////////////////////////////////////////////////////
 // set answer array if question was what is my sex?
 eQuiz.getSex = function() {
-    eQuiz.ansArray = ["cow", "bull"]
+    eQuiz.ansArray = ["Female", "Male"];
+    eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].sex;
 }
 // set species array if question was what is my species?
 eQuiz.getSpecies = function() {
-    console.log("getSpecies")
-    eQuiz.ansArray = ["Asian", "African", "Hybrid"]
+    eQuiz.ansArray = ["Asian", "African", "Hybrid"];
+    eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].species;
 }
-
 
 eQuiz.gatherNameLocationList = function(data) {
     eQuiz.namesList = [];
@@ -198,56 +207,57 @@ eQuiz.gatherNameLocationList = function(data) {
 /////////////////////////////
 
 eQuiz.getNames = function() {
-    eQuiz.ansArray = [];
-    let tempNamesList = [];
-    eQuiz.shuffle(tempNamesList, eQuiz.namesList);
+    // eQuiz.shuffle(eQuiz.ansArray, eQuiz.namesList);
     // eQuiz.ansArray = tempNamesList.slice(0, 3);
     //grab correct elephant name
-    eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
+    // eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
     // grab 3 incorrect elephant names
     // for (let i = 0; i < 4; i++) {
     //     eQuiz.ansArray.push(eQuiz.shuffle(eQuiz.namesList));
     //     //future error handling: we need to make sure no doubles with an includes check maybe?
     // }
     // add an if statement if fake answer = real answer, do not push
+    eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].name;
 }
 
 eQuiz.getLocations = function() {
-    console.log("location");
+    // eQuiz.shuffle(eQuiz.ansArray, eQuiz.locationList);
+    eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].affiliation;
 }
+
 
 
 eQuiz.ansHtmlToAdd = function() {
-
+    eQuiz.ansHtml = '';
+    eQuiz.ansArray.forEach(function(item) {
+        eQuiz.ansHtml += `<input type="radio" name="answer" id="${item}">
+            <label for="${item}">${item}</label>`;
+    });
 }
+
 //html section
 eQuiz.compileHtmlDom = function() {
     const formToAdd = `
         <h3>${eQuiz.currentQ}</h3>
-        <div>
-            <img src="${eQuiz.shuffledE[eQuiz.qNum].image}" alt="">
+        <div class="questionLayout">
+            <div>
+                <img src="${eQuiz.shuffledE[eQuiz.qNum].image}" alt="">
+            </div>
+            <div class="answerLayout">
+            ${eQuiz.ansHtml}
+            </div>
         </div>
+        <button type="submit" class="next">Next</button>
     `;
-    const hintToAdd = `
-
-    `;
-    
     //put on DOM
-
+    eQuiz.$questionForm.html(formToAdd);
+    eQuiz.$hintToaster.text(eQuiz.hintText);
 }
 
-// // q1 = 
-// // a = bull, cow
-// // q2 = 
-// // a = african, asian, hybrid
-// // q3 = 
-// // a = 3 fake, 1 real
-// // q4 = 
-// // a = 3 fake 1 real OR a2 = circus, national park, zoo, the wild
-
-
-    // if (eQuiz.shuffledE[eQuiz.qNum].sex === "Female") {
-    //     eQuiz.rightAnswer = "cow";
-    // } else {
-    //     eQuiz.rightAnswer = "bull";
-    // }
+eQuiz.endQuiz = function() {
+    eQuiz.$qScreen.hide();
+    eQuiz.$hintToaster.hide();
+    const htmlToAdd = `<h3>Congratutions! Your score was:</h3>
+    <p>${eQuiz.score}/5</p>`;
+    eQuiz.$scoreScreen.show().html(htmlToAdd);
+}

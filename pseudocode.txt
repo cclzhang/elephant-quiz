@@ -40,3 +40,4 @@ Stretch goal: loading screen? - make the elephant icon walk the question div acr
 Stretch goal: quiz click corner to chang colour scheme
 Stretch goal: rework title screen to have instructions
 Stretch goal: set a mediaquery on height disable phone switch to landscape mode
+Stretch goal: show score on dom during quiz
