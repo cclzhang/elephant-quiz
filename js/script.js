@@ -113,7 +113,7 @@ eQuiz.startQuiz = function() {
     eQuiz.$header.hide();
     eQuiz.$main.show();
     eQuiz.$qScreen.show();
-    eQuiz.$hintToaster.show();
+    // eQuiz.$hintToaster.show();
     //set question & answers
     eQuiz.nextQ();
     //load question
@@ -238,16 +238,20 @@ eQuiz.ansHtmlToAdd = function() {
 //html section
 eQuiz.compileHtmlDom = function() {
     const formToAdd = `
-        <h3>${eQuiz.currentQ}</h3>
+        <div class="headerContainer">
+            <h3>${eQuiz.currentQ}</h3>
+        </div>
         <div class="questionLayout">
-            <div>
+            <div class="questionImage">
                 <img src="${eQuiz.shuffledE[eQuiz.qNum].image}" alt="">
             </div>
             <div class="answerLayout">
-            ${eQuiz.ansHtml}
+                ${eQuiz.ansHtml}
             </div>
         </div>
-        <button type="submit" class="next">Next</button>
+        <div class="buttonContainer">
+            <button type="submit" class="next">Next</button>
+        </div>
     `;
     //put on DOM
     eQuiz.$questionForm.html(formToAdd);
