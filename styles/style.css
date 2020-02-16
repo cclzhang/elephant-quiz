@@ -402,6 +402,10 @@ footer {
   display: none;
 }
 
+.questionScreen .question .questionLayout .answerLayout input[type=radio]:checked + label {
+  background: blue;
+}
+
 .questionScreen .question .questionLayout .answerLayout label:not(:last-child) {
   padding-bottom: 10%;
 }

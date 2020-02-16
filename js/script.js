@@ -46,7 +46,12 @@ eQuiz.getDom = () => {
 //set up event listeners
 eQuiz.listenUp = function() {
     eQuiz.$startB.on('click', eQuiz.startQuiz);
-    eQuiz.$questionForm.on('submit', '.next', eQuiz.nextQ);
+    eQuiz.$questionForm.on('click', '.next', eQuiz.nextQ);
+    // eQuiz.$questionForm.on('submit', 'button', function () {
+    //     // e.preventDefault();
+    //     console.log("hi");
+    //     console.log("user answer" + eQuiz.$questionForm.val());
+    // });
 }
 
 // E = elephant
@@ -67,22 +72,22 @@ eQuiz.getE = () => {
     }).then(function (data) {
         console.log('firing api');
         eQuiz.gatherE(data);
-        eQuiz.gatherNameLocationList(data);
+        // eQuiz.gatherNameLocationList(data);
     });
 };
 
 eQuiz.shuffle = function (tempArray, originalArray) {
-    while (tempArray.length < originalArray.length) {
-        console.log('entering while loop');
-        this.randIndex = Math.floor(Math.random() * originalArray.length);
-        console.log('randIndex: ' + this.randIndex)
-        if (tempArray.includes(originalArray[this.randIndex]) === false) {
-            console.log('entering if statement');
-            tempArray.push(originalArray[this.randIndex]);
-        }
-        console.log('exiting if statement');
-    }
-    console.log('exiting while loop');
+    // copy original array into the hat
+    let hat = [...originalArray];
+    let totalNumberOfDraws = originalArray.length
+    for (i = 0; i < totalNumberOfDraws; i++) {
+        // Each time, pick random item in hat
+        this.randIndex = Math.floor(Math.random() * hat.length);
+        // add item to tempArray
+        tempArray.push(hat[this.randIndex]);
+        // remove item from hat
+        hat.splice(this.randIndex, 1);
+    }// repeat
 }
 
 
@@ -186,42 +191,75 @@ eQuiz.getSpecies = function() {
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].species;
 }
 
-eQuiz.gatherNameLocationList = function(data) {
+eQuiz.gatherNameList = function() {
     eQuiz.namesList = [];
-    eQuiz.locationList = [];
     //gather names
-    data.forEach(function(elephant) {
+    eQuiz.shuffledE.forEach(function(elephant) {
         //checks to make sure there's info in the data set
-        if (typeof elephant.name === 'string') {
+        // if (typeof elephant.name === 'string') {
             eQuiz.namesList.push(elephant.name);
-        }
+        // }
     });
     //gather locations
-    data.forEach(function(elephant) {
+
+}
+
+eQuiz.gatherLocationList = function () {
+    eQuiz.locationList = [];
+    eQuiz.shuffledE.forEach(function (elephant) {
         //checks to make sure there's info in the data set
-        if (typeof elephant.affiliation === 'string') {
-            eQuiz.locationList.push(elephant.affiliation);
-        }
+        // if (typeof elephant.affiliation === 'string') {
+        eQuiz.locationList.push(elephant.affiliation);
+        // }
     });
 }
 /////////////////////////////
 
 eQuiz.getNames = function() {
-    // eQuiz.shuffle(eQuiz.ansArray, eQuiz.namesList);
-    // eQuiz.ansArray = tempNamesList.slice(0, 3);
-    //grab correct elephant name
-    // eQuiz.ansArray.push(eQuiz.shuffledE[eQuiz.qNum].name);
-    // grab 3 incorrect elephant names
-    // for (let i = 0; i < 4; i++) {
-    //     eQuiz.ansArray.push(eQuiz.shuffle(eQuiz.namesList));
-    //     //future error handling: we need to make sure no doubles with an includes check maybe?
-    // }
-    // add an if statement if fake answer = real answer, do not push
+    eQuiz.gatherNameList();
+    eQuiz.namesAns = [];
+    // shuffle namesList and put it into namesAns
+    console.log("original ans array", eQuiz.ansArray);
+    eQuiz.shuffle(eQuiz.namesAns, eQuiz.namesList);
+    console.log("namesList", eQuiz.namesList);
+    console.log("namesAns", eQuiz.namesAns);
+    console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].name);
+    // filter: so namesAnswer will include all names without the correct name
+    eQuiz.namesAns = eQuiz.namesAns.filter(function(item){
+        return item !== eQuiz.shuffledE[eQuiz.qNum].name
+    });
+    console.log("filtered namesAns", eQuiz.namesAns);
+    // slice out the first 3 random names from namesAns
+    eQuiz.namesAns = eQuiz.namesAns.slice(0, 3);
+    console.log("sliced namesAns", eQuiz.namesAns);
+    //grab correct elephant name and put into namesAns
+    eQuiz.namesAns.push(eQuiz.shuffledE[eQuiz.qNum].name);
+    console.log("namesAns with right and wrong ans", eQuiz.namesAns);
+    // shuffle namesAns and put it into ansArray
+    eQuiz.shuffle(eQuiz.ansArray, eQuiz.namesAns);
+    // variable for the right answer to use later
+    console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].name;
 }
 
 eQuiz.getLocations = function() {
-    // eQuiz.shuffle(eQuiz.ansArray, eQuiz.locationList);
+    eQuiz.gatherLocationList();
+    eQuiz.locationAns = [];
+    console.log("original ans array", eQuiz.ansArray);
+    eQuiz.shuffle(eQuiz.locationAns, eQuiz.locationList);
+    console.log("locationList", eQuiz.locationList);
+    console.log("locationAns", eQuiz.locationAns);
+    console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].affiliation);
+    eQuiz.locationAns = eQuiz.locationAns.filter(function (item) {
+        return item !== eQuiz.shuffledE[eQuiz.qNum].affiliation;
+    });
+    console.log("filtered locationAns", eQuiz.locationAns);
+    eQuiz.locationAns = eQuiz.locationAns.slice(0, 3);
+    console.log("sliced locationAns", eQuiz.locationAns);
+    eQuiz.locationAns.push(eQuiz.shuffledE[eQuiz.qNum].affiliation);
+    console.log("locationAns with right and wrong ans", eQuiz.locationAns);
+    eQuiz.shuffle(eQuiz.ansArray, eQuiz.locationAns);
+    console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].affiliation;
 }
 

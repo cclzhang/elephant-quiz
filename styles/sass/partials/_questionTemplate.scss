@@ -38,6 +38,10 @@
                     display: none;
                 }
 
+                input[type=radio]:checked + label{
+                    background: blue;
+                }
+
                 label:not(:last-child) {
                     padding-bottom: 10%;
                 }
