@@ -7,6 +7,19 @@
     border-radius: 10px;
     box-shadow: 0px 0px 15px $black;
 
+    .hintOnClick {
+        position: absolute;
+        left: 10%;
+        bottom: 0;
+        padding: 15px 25px;
+        border-radius: 0;
+        background: none;
+
+        i {
+            font-size: 4rem;
+        }
+    }
+
     .question {
         display: flex;
         flex-direction: column;

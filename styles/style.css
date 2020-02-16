@@ -341,6 +341,10 @@ footer {
   text-align: center;
 }
 
+.swal-icon {
+  max-width: 300px;
+}
+
 .questionScreen {
   background: #e3ffc7;
   width: 100%;
@@ -350,6 +354,19 @@ footer {
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 15px black;
           box-shadow: 0px 0px 15px black;
+}
+
+.questionScreen .hintOnClick {
+  position: absolute;
+  left: 10%;
+  bottom: 0;
+  padding: 15px 25px;
+  border-radius: 0;
+  background: none;
+}
+
+.questionScreen .hintOnClick i {
+  font-size: 4rem;
 }
 
 .questionScreen .question {

@@ -13,7 +13,6 @@ eQuiz.init = () => {
     eQuiz.getDom();
     eQuiz.setGlobal();
     eQuiz.listenUp();
-    
 };
 
 //set global variables
@@ -25,6 +24,8 @@ eQuiz.setGlobal = function() {
     eQuiz.randIndex = 0;
     //score counter
     eQuiz.score = 0;
+    //in order for score to process correctly on start
+    eQuiz.correctAns = "";
 }
 
 // Dom nodes into variables
@@ -34,8 +35,9 @@ eQuiz.getDom = () => {
     eQuiz.$main = $("main");
     // 
     eQuiz.$qScreen = $(".questionScreen");
-    eQuiz.$questionForm = $(".question");
+    eQuiz.$questionForm = $("form");
     eQuiz.$hintToaster = $(".hintToaster");
+    eQuiz.$getHint = $(".hintOnClick");
     // 
     eQuiz.$infoCard = $(".infoCard");
     // 
@@ -46,12 +48,27 @@ eQuiz.getDom = () => {
 //set up event listeners
 eQuiz.listenUp = function() {
     eQuiz.$startB.on('click', eQuiz.startQuiz);
-    eQuiz.$questionForm.on('click', '.next', eQuiz.nextQ);
-    // eQuiz.$questionForm.on('submit', 'button', function () {
-    //     // e.preventDefault();
-    //     console.log("hi");
-    //     console.log("user answer" + eQuiz.$questionForm.val());
-    // });
+    eQuiz.$questionForm.on('submit', eQuiz.submitAns);
+    eQuiz.$getHint.on('click', eQuiz.toggleHint);
+}
+
+eQuiz.submitAns = function(e) {
+    e.preventDefault();
+    swal({
+        icon: `${eQuiz.shuffledE[eQuiz.qNum].image}`,
+        iconHtml: 'hi?',
+        title: `${eQuiz.shuffledE[eQuiz.qNum].name}`,
+        text: `${eQuiz.shuffledE[eQuiz.qNum].note}`,
+    }).then(eQuiz.nextQ);
+}
+
+eQuiz.toggleHint = function() {
+    if (eQuiz.$hintToaster.css("display") === "block") {
+        eQuiz.$hintToaster.hide();
+    } else {
+        eQuiz.$hintToaster.show();
+    }
+    console.log('whats up');
 }
 
 // E = elephant
@@ -72,7 +89,6 @@ eQuiz.getE = () => {
     }).then(function (data) {
         console.log('firing api');
         eQuiz.gatherE(data);
-        // eQuiz.gatherNameLocationList(data);
     });
 };
 
@@ -101,7 +117,7 @@ eQuiz.gatherE = function(data) {
     data.forEach(function(elephant) {
         //process complete data only into array
         if (elephant.image !== "https://elephant-api.herokuapp.com/pictures/missing.jpg" && elephant.name !== undefined && elephant.species !== "Unavailable" && elephant.sex !== "Unavailable") {
-            eQuiz.arrayOfE.push({name: elephant.name, affiliation: elephant.affiliation, species: elephant.species, sex: elephant.sex, image: elephant.image, note: elephant.note});
+            eQuiz.arrayOfE.push({name: elephant.name, affiliation: elephant.affiliation, species: elephant.species, sex: elephant.sex, image: elephant.image, note: elephant.note, wikilink: elephant.wikilink});
         }
     });
     //randomize array of elephants
@@ -118,7 +134,6 @@ eQuiz.startQuiz = function() {
     eQuiz.$header.hide();
     eQuiz.$main.show();
     eQuiz.$qScreen.show();
-    // eQuiz.$hintToaster.show();
     //set question & answers
     eQuiz.nextQ();
     //load question
@@ -137,16 +152,22 @@ eQuiz.setQ = function() {
 };
 
 eQuiz.nextQ = function() {
-    // e.preventDefault();
+    console.log('nextQ fired');
+    console.log(eQuiz.qNum);
     //if statement to check if quiz is over or is beginning
-    if (eQuiz.qNum === 4) {
-        eQuiz.endQuiz();
-    } else {
-        //validate answer of q
-        console.log(eQuiz.$questionForm.val());
-        if (eQuiz.$questionForm.val() === eQuiz.correctAns) {
+    if (eQuiz.qNum === 5) {
+        console.log('firing end quiz');
+        if ($("input[name='answer']:checked").val() === eQuiz.correctAns) {
             eQuiz.score++;
         }
+        eQuiz.endQuiz();
+    } else {
+        console.log('score ' + eQuiz.score)
+        //validate answer of q
+        if ($("input[name='answer']:checked").val() === eQuiz.correctAns) {
+            eQuiz.score++;
+        }
+        console.log('score ' + eQuiz.score);
         eQuiz.quizInit();
     }
 }
@@ -268,7 +289,7 @@ eQuiz.getLocations = function() {
 eQuiz.ansHtmlToAdd = function() {
     eQuiz.ansHtml = '';
     eQuiz.ansArray.forEach(function(item) {
-        eQuiz.ansHtml += `<input type="radio" name="answer" id="${item}">
+        eQuiz.ansHtml += `<input type="radio" name="answer" id="${item}" value="${item}">
             <label for="${item}">${item}</label>`;
     });
 }
@@ -297,8 +318,8 @@ eQuiz.compileHtmlDom = function() {
 }
 
 eQuiz.endQuiz = function() {
+    console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
-    eQuiz.$hintToaster.hide();
     const htmlToAdd = `<h3>Congratutions! Your score was:</h3>
     <p>${eQuiz.score}/5</p>`;
     eQuiz.$scoreScreen.show().html(htmlToAdd);
