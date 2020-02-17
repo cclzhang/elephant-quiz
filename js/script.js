@@ -320,7 +320,10 @@ eQuiz.compileHtmlDom = function() {
 eQuiz.endQuiz = function() {
     console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
-    const htmlToAdd = `<h3>Congratutions! Your score was:</h3>
-    <p>${eQuiz.score}/5</p>`;
+    const htmlToAdd = `
+        <h3>Congratulations! Your score was:</h3>
+        <p>${eQuiz.score}/5</p>
+        <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/" data-size="large"><i class="fab fa-twitter"></i> Tweet</a>
+    `;
     eQuiz.$scoreScreen.show().html(htmlToAdd);
 }

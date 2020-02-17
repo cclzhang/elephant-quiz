@@ -29,16 +29,15 @@ On submission of final question, display total score and based on score provide 
     1/5 
     0/5 You should probably go visit the zoo next weekend.
 
-Stretch goal: convert affiliation data into buckets instead of exact locations
-    -circus, zoo, park, the wild
+DONE - Stretch goal: hint box with hints generated from api data
+DONE - Stretch goal: fun fact box after each answer submission
+DONE - Stretch goal: share results to twitter at end with an elephant pic??? maybe?
+Stretch goal: preloader screen? - make the elephant icon walk the question div across the screen
+Stretch goal: quiz click corner to change colour scheme
+
+
 Stretch goal: final message generator based on score
-Stretch goal: hint box with hints generated from api data
-Stretch goal: fun fact box after each answer submission
-Stretch goal: @ beginning of quiz load, ensure even mix of african/asian species
-Stretch goal: share results to twitter at end with an elephant pic??? maybe?
-Stretch goal: loading screen? - make the elephant icon walk the question div across the screen
-Stretch goal: quiz click corner to chang colour scheme
 Stretch goal: rework title screen to have instructions
 Stretch goal: set a mediaquery on height disable phone switch to landscape mode
-Stretch goal: show score on dom during quiz
-Stretch goal: preloader for quiz
+Stretch goal: convert affiliation data into buckets instead of exact locations
+    -circus, zoo, park, the wild
