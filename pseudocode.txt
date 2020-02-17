@@ -1,27 +1,27 @@
 THE ELEPHANT QUIZ
-with 5 questions
-MVP: 5 question quiz that totals a score at the end - each question loads an image and a question from a bank of 4 questions. based on the question type, answers will be loaded as well from the API.
+✔ with 5 questions
+✔ MVP: 5 question quiz that totals a score at the end - each question loads an image and a question from a bank of 4 questions. based on the question type, answers will be loaded as well from the API.
 
-Randomly generate type of question from 4 types
+✔ Randomly generate type of question from 4 types
     -load the img
     -gender -name -species -"affiliation"/where are they from?
 
-What is the gender?
+✔ What is the gender?
     answer options: female, male
     hint box: their name is [name]! they're a [species] elephant
-What is the species?
+✔ What is the species?
     answer options: african, asian, hybrid
     hint box: they're a [gender] and they go by the name [name]!
-What is their name?
+✔ What is their name?
     answer options: 1 - real name and generate 3 other names
     hint box: they're a [gender]! and theyre an [species] elephant!
-Where is this elephant from?
+✔ Where is this elephant from?
     answer options: 1 - real affiliation and generate 3 other locations
     hint box: their name is [name]! they're a [species] elephant
 
-On submission of each question, display info box of the elephant in question with the note data as a ~fun fact~
+✔ On submission of each question, display info box of the elephant in question with the note data as a ~fun fact~
 
-On submission of final question, display total score and based on score provide a message like
+✔ On submission of final question, display total score and based on score provide a message like
     5/5 You're an elephant whisperer!
     4/5
     3/5
@@ -29,15 +29,24 @@ On submission of final question, display total score and based on score provide 
     1/5 
     0/5 You should probably go visit the zoo next weekend.
 
-DONE - Stretch goal: hint box with hints generated from api data
-DONE - Stretch goal: fun fact box after each answer submission
-DONE - Stretch goal: share results to twitter at end with an elephant pic??? maybe?
-Stretch goal: preloader screen? - make the elephant icon walk the question div across the screen
-Stretch goal: quiz click corner to change colour scheme
+✔ Stretch goal: hint box with hints generated from api data
+✔ Stretch goal: fun fact box after each answer submission
+✔ Stretch goal: share results to twitter at end with an elephant pic??? maybe?
+✔ Stretch goal: preloader screen? - make the elephant icon walk the question div across the screen
+✔ Stretch goal: final message generator based on score
 
 
-Stretch goal: final message generator based on score
-Stretch goal: rework title screen to have instructions
-Stretch goal: set a mediaquery on height disable phone switch to landscape mode
-Stretch goal: convert affiliation data into buckets instead of exact locations
+TDL remaining
+styling
+sweet alert accessibility
+set a mediaquery on height disable phone switch to landscape mode
+convert affiliation data into buckets instead of exact locations
     -circus, zoo, park, the wild
+quiz click corner to change colour scheme
+rework title screen to have instructions
+
+
+questions to ask:
+- namesList & locationsList only works with console.log on for some reason
+- sweetalert accessibility
+	- adding image alt text

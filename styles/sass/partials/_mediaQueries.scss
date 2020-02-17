@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+    .questionScreen {
+        .questionLayout {
+            flex-direction: column;
+            text-align: center;
+        }
+        .answerLayout {
+            width: 95%;
+        }
+    }
+}

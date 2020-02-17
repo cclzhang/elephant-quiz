@@ -124,6 +124,7 @@ eQuiz.gatherE = function(data) {
     console.log('shuffling elephants');
     eQuiz.shuffledE = [];
     eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
+    // $('#loading').hide();
 }
 
 
@@ -240,47 +241,47 @@ eQuiz.getNames = function() {
     eQuiz.gatherNameList();
     eQuiz.namesAns = [];
     // shuffle namesList and put it into namesAns
-    console.log("original ans array", eQuiz.ansArray);
+// console.log("original ans array", eQuiz.ansArray);
     eQuiz.shuffle(eQuiz.namesAns, eQuiz.namesList);
-    console.log("namesList", eQuiz.namesList);
-    console.log("namesAns", eQuiz.namesAns);
-    console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].name);
+// console.log("namesList", eQuiz.namesList);
+// console.log("namesAns", eQuiz.namesAns);
+// console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].name);
     // filter: so namesAnswer will include all names without the correct name
     eQuiz.namesAns = eQuiz.namesAns.filter(function(item){
         return item !== eQuiz.shuffledE[eQuiz.qNum].name
     });
-    console.log("filtered namesAns", eQuiz.namesAns);
+// console.log("filtered namesAns", eQuiz.namesAns);
     // slice out the first 3 random names from namesAns
     eQuiz.namesAns = eQuiz.namesAns.slice(0, 3);
-    console.log("sliced namesAns", eQuiz.namesAns);
+// console.log("sliced namesAns", eQuiz.namesAns);
     //grab correct elephant name and put into namesAns
     eQuiz.namesAns.push(eQuiz.shuffledE[eQuiz.qNum].name);
-    console.log("namesAns with right and wrong ans", eQuiz.namesAns);
+// console.log("namesAns with right and wrong ans", eQuiz.namesAns);
     // shuffle namesAns and put it into ansArray
     eQuiz.shuffle(eQuiz.ansArray, eQuiz.namesAns);
     // variable for the right answer to use later
-    console.log("shuffled answers", eQuiz.ansArray);
+// console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].name;
 }
 
 eQuiz.getLocations = function() {
     eQuiz.gatherLocationList();
     eQuiz.locationAns = [];
-    console.log("original ans array", eQuiz.ansArray);
+// console.log("original ans array", eQuiz.ansArray);
     eQuiz.shuffle(eQuiz.locationAns, eQuiz.locationList);
-    console.log("locationList", eQuiz.locationList);
-    console.log("locationAns", eQuiz.locationAns);
-    console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].affiliation);
+// console.log("locationList", eQuiz.locationList);
+// console.log("locationAns", eQuiz.locationAns);
+// console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].affiliation);
     eQuiz.locationAns = eQuiz.locationAns.filter(function (item) {
         return item !== eQuiz.shuffledE[eQuiz.qNum].affiliation;
     });
-    console.log("filtered locationAns", eQuiz.locationAns);
+// console.log("filtered locationAns", eQuiz.locationAns);
     eQuiz.locationAns = eQuiz.locationAns.slice(0, 3);
-    console.log("sliced locationAns", eQuiz.locationAns);
+// console.log("sliced locationAns", eQuiz.locationAns);
     eQuiz.locationAns.push(eQuiz.shuffledE[eQuiz.qNum].affiliation);
-    console.log("locationAns with right and wrong ans", eQuiz.locationAns);
+// console.log("locationAns with right and wrong ans", eQuiz.locationAns);
     eQuiz.shuffle(eQuiz.ansArray, eQuiz.locationAns);
-    console.log("shuffled answers", eQuiz.ansArray);
+// console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].affiliation;
 }
 
@@ -318,11 +319,21 @@ eQuiz.compileHtmlDom = function() {
 }
 
 eQuiz.endQuiz = function() {
+    if(eQuiz.score === 0) {
+        eQuiz.message = "You should probably go visit the zoo next weekend.";
+    } else if (eQuiz.score < 5) {
+        eQuiz.message = "Life isn't perfect. Try harder next time.";
+    } else if (eQuiz.score === 5) {
+        eQuiz.message = "You're an elephant whisperer!";
+    } else {
+        eQuiz.message = "Sorry you broke our score system";
+    }
     console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
     const htmlToAdd = `
         <h3>Congratulations! Your score was:</h3>
         <p>${eQuiz.score}/5</p>
+        <p>${eQuiz.message}</p>
         <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/" data-size="large"><i class="fab fa-twitter"></i> Tweet</a>
     `;
     eQuiz.$scoreScreen.show().html(htmlToAdd);

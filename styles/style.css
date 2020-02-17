@@ -203,6 +203,17 @@ body {
   height: 100vh;
 }
 
+#loading {
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  display: block;
+  opacity: 1;
+  background-color: #fff;
+  z-index: 99;
+  text-align: center;
+}
+
 h1 {
   font-size: 6rem;
   margin-top: 10%;
@@ -383,26 +394,35 @@ footer {
           justify-content: space-between;
 }
 
-.questionScreen .question .questionLayout {
+.questionScreen .questionLayout {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-.questionScreen .question .questionLayout .questionImage {
+.questionScreen .buttonContainer {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.questionScreen .questionImage {
+  min-width: 250px;
   width: calc(100% / 2);
   padding: 5%;
 }
 
-.questionScreen .question .questionLayout .questionImage img {
+.questionScreen .questionImage img {
   border: 7px solid #a5c1ff;
   border-radius: 10px;
 }
 
-.questionScreen .question .questionLayout .answerLayout {
+.questionScreen .answerLayout {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -410,26 +430,20 @@ footer {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: calc(100% / 2);
-  padding-left: 15%;
+  width: 40%;
   font-size: 2.2rem;
 }
 
-.questionScreen .question .questionLayout .answerLayout input[type=radio] {
+.questionScreen .answerLayout input[type=radio] {
   display: none;
 }
 
-.questionScreen .question .questionLayout .answerLayout input[type=radio]:checked + label {
+.questionScreen .answerLayout input[type=radio]:checked + label {
   background: blue;
 }
 
-.questionScreen .question .questionLayout .answerLayout label:not(:last-child) {
+.questionScreen .answerLayout label:not(:last-child) {
   padding-bottom: 10%;
-}
-
-.questionScreen .question .buttonContainer {
-  -ms-flex-item-align: end;
-      align-self: flex-end;
 }
 
 .questionScreen .hintToaster {
@@ -583,5 +597,18 @@ footer {
     right: 100%;
     -webkit-transform: rotate(0);
             transform: rotate(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .questionScreen .questionLayout {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    text-align: center;
+  }
+  .questionScreen .answerLayout {
+    width: 95%;
   }
 }
