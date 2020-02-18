@@ -39,6 +39,9 @@ button {
     background: $accent;
     padding: 20px;
     border-radius: 10px;
+    &:focus{
+        border: 2px solid black;
+    }
 }
 
 .cursorDefault:hover {

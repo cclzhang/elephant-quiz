@@ -54,9 +54,12 @@ eQuiz.listenUp = function() {
 eQuiz.submitAns = function(e) {
     e.preventDefault();
     if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
-        eQuiz.ansIcon = `../assets/checkmark.png`;
+        eQuiz.ansIcon = "../assets/checkmark.png";
+        // eQuiz.ansIcon = "warning";
     } else {
-        eQuiz.ansIcon = `../assets/wrong.png`;
+        eQuiz.ansIcon = "../assets/wrong.png";        
+        // eQuiz.ansIcon = "warning"
+
     }
     swal({
         title: `Meet ${eQuiz.shuffledE[eQuiz.qNum - 1].name}!`,
@@ -101,7 +104,7 @@ eQuiz.getE = () => {
         // const elephantUrl = `https://elephant-api.herokuapp.com/`;
         // const allElephants = "elephants";
         // const randomE = "random";
-        url: 'http://proxy.hackeryou.com',
+        url: 'https://proxy.hackeryou.com',
         dataType: 'json',
         method: 'GET',
         data: {
@@ -152,7 +155,7 @@ eQuiz.gatherE = function(data) {
         eQuiz.$startB.removeClass("cursorDefault");
         $('#loadingComplete').show();
         eQuiz.listenUp();
-    }, 2000);
+    }, 1500);
 }
 
 
@@ -366,6 +369,16 @@ eQuiz.endQuiz = function() {
         <p>Your score was: <span class="scoreEmphasis">${eQuiz.score}/5</span></p>
         <p>${eQuiz.message}</p>
         <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/" data-size="large"><i class="fab fa-twitter"></i> Tweet</a>
+        <button class="reset">Play Again</button>
     `;
     eQuiz.$scoreScreen.show().html(htmlToAdd);
+
+    eQuiz.$scoreScreen.on("click", ".reset", function () {
+        eQuiz.qNum = 0;
+        eQuiz.score = 0;
+        eQuiz.$scoreScreen.hide();
+        eQuiz.startQuiz();
+    });
 }
+
+
