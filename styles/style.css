@@ -207,8 +207,8 @@ h1 {
   font-size: 6rem;
   margin-top: 10%;
   text-decoration: underline;
-  -webkit-text-decoration-color: #a5c1ff;
-          text-decoration-color: #a5c1ff;
+  -webkit-text-decoration-color: #ffbc8f;
+          text-decoration-color: #ffbc8f;
   text-decoration-thickness: 10px;
 }
 
@@ -241,8 +241,8 @@ footer {
 }
 
 footer a {
-  -webkit-text-decoration-color: #a5c1ff;
-          text-decoration-color: #a5c1ff;
+  -webkit-text-decoration-color: #ffbc8f;
+          text-decoration-color: #ffbc8f;
   text-decoration-thickness: 3px;
   color: black;
 }
@@ -299,9 +299,13 @@ button {
   display: inline-block;
   margin: 0 auto;
   border: none;
-  background: #a5c1ff;
+  background: #ffbc8f;
   padding: 20px;
   border-radius: 10px;
+}
+
+.cursorDefault:hover {
+  cursor: default;
 }
 
 main {
@@ -326,11 +330,18 @@ main .container {
 main .questionScreen,
 main .scoreScreen {
   display: none;
+  height: 90%;
 }
 
-main .questionScreen,
 main .scoreScreen {
+  background: #e3ffc7;
+  width: 100%;
   height: 90%;
+  padding: 7%;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 15px black;
+          box-shadow: 0px 0px 15px black;
+  overflow: hidden;
 }
 
 footer {
@@ -348,7 +359,28 @@ footer {
 }
 
 .swal-icon {
-  max-width: 300px;
+  max-width: 75px;
+}
+
+.swal-overlay {
+  background-image: url(../assets/elephant.png);
+  background-repeat: no-repeat;
+  background-size: 25%;
+  -webkit-animation: 10s linear infinite animatedBackground;
+          animation: 10s linear infinite animatedBackground;
+}
+
+.swal-button {
+  border: none;
+  background: #ffbc8f;
+  padding: 20px;
+  border-radius: 10px;
+  color: black;
+  font-weight: normal;
+}
+
+.swal-button:not([disabled]):hover {
+  background: #ffbc8f;
 }
 
 .questionScreen {
@@ -414,7 +446,6 @@ footer {
 }
 
 .questionScreen .questionImage img {
-  border: 7px solid #a5c1ff;
   border-radius: 10px;
 }
 
@@ -430,17 +461,19 @@ footer {
 }
 
 .questionScreen .answerLayout input[type=radio] {
-  display: none;
+  opacity: 0;
+}
+
+.questionScreen .answerLayout input[type=radio]:focus + label {
+  background: #ffbc8f;
 }
 
 .questionScreen .answerLayout label {
   padding: 5%;
-  border: 7px solid transparent;
 }
 
 .questionScreen .answerLayout input[type=radio]:checked + label {
-  border: 7px solid #a5c1ff;
-  border-radius: 10px;
+  background: #ffbc8f;
 }
 
 .questionScreen .answerLayout label:not(:last-child) {
@@ -449,11 +482,8 @@ footer {
 
 .questionScreen .hintToaster {
   position: absolute;
-  background: #a5c1ff;
-  border-radius: 10px 10px 0 0;
   max-width: 250px;
   padding: 2%;
-  font-size: 2.5rem;
   text-align: center;
   bottom: -25%;
   left: calc(10% + 60px);
@@ -682,6 +712,24 @@ footer {
   100% {
     bottom: -25%;
     left: calc(10% + 60px);
+  }
+}
+
+@-webkit-keyframes animatedBackground {
+  0% {
+    background-position: 130% 100%;
+  }
+  100% {
+    background-position: -30% 100%;
+  }
+}
+
+@keyframes animatedBackground {
+  0% {
+    background-position: 130% 100%;
+  }
+  100% {
+    background-position: -30% 100%;
   }
 }
 

@@ -106,3 +106,13 @@
         left: calc(10% + 60px);
     }
 }
+
+@keyframes animatedBackground {
+    0% {
+        background-position: 130% 100%;
+    }
+
+    100% {
+        background-position: -30% 100%;
+    }
+}

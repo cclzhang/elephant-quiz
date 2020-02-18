@@ -44,7 +44,6 @@
         padding: 5%;
 
         img {
-            border: 7px solid $accent;
             border-radius: 10px;
         }
     }
@@ -55,17 +54,22 @@
         width: 45%;
 
         input[type=radio] {
-            display: none;
+            opacity: 0;
+
+            &:focus + label {
+                background: $accent;
+            }
         }
 
         label {
             padding: 5%;
-            border: 7px solid transparent;
+            // border: 7px solid transparent;
         }
 
         input[type=radio]:checked + label{
-            border: 7px solid $accent;
-            border-radius: 10px;
+            // border: 7px solid $accent;
+            // border-radius: 10px;
+            background: $accent;
         }
 
         label:not(:last-child) {
@@ -74,11 +78,10 @@
     }
     .hintToaster {
         position: absolute;
-        background: $accent;
-        border-radius: 10px 10px 0 0;
+        // background: $accent;
+        // border-radius: 10px 10px 0 0;
         max-width: 250px;
         padding: 2%;
-        font-size: 2.5rem;
         text-align: center;
         bottom: -25%;
         left: calc(10% + 60px);

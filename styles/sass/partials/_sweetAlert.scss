@@ -1,12 +1,23 @@
 .swal-icon {
-    max-width: 300px;
+    max-width: 75px;
 }
 
-// .swal-overlay {
-//     // styles the bg
-//     background: blue;
-// }
+.swal-overlay {
+    background-image: url(../assets/elephant.png);
+    background-repeat: no-repeat;
+    background-size: 25%;
+    animation: 10s linear infinite animatedBackground;
+}
 
-// .swal-modal {
-//     // styles the modal
-// }
+.swal-button {
+    border: none;
+    background: $accent;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    font-weight: normal;
+
+    &:not([disabled]):hover {
+        background: $accent;
+    }
+}

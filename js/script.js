@@ -53,11 +53,34 @@ eQuiz.listenUp = function() {
 
 eQuiz.submitAns = function(e) {
     e.preventDefault();
+    if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
+        eQuiz.ansIcon = `../assets/checkmark.png`;
+    } else {
+        eQuiz.ansIcon = `../assets/wrong.png`;
+    }
     swal({
-        icon: `${eQuiz.shuffledE[eQuiz.qNum - 1].image}`,
-        title: `${eQuiz.shuffledE[eQuiz.qNum - 1].name}`,
+        title: `Meet ${eQuiz.shuffledE[eQuiz.qNum - 1].name}!`,
         text: `${eQuiz.shuffledE[eQuiz.qNum - 1].note}`,
-    }).then(eQuiz.nextQ);
+        icon: eQuiz.ansIcon,
+        buttons: {
+            wiki: {
+                text: "Learn more!",
+                closeModal: false,
+                value: "openlink",
+            },
+            confirm: {
+                text: "Next!",
+            }
+        },
+    }).then(function(value) {
+        if (value === "openlink") {
+            const win = window.open(`${eQuiz.shuffledE[eQuiz.qNum - 1].wikilink}`);
+            win.focus();
+            eQuiz.nextQ();
+        } else {
+            eQuiz.nextQ();
+        }
+    });
 }
 
 eQuiz.toggleHint = function() {
@@ -126,9 +149,10 @@ eQuiz.gatherE = function(data) {
     eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
     setTimeout(function() {
         $('#loading').hide();
+        eQuiz.$startB.removeClass("cursorDefault");
         $('#loadingComplete').show();
         eQuiz.listenUp();
-    }, 3500);
+    }, 2000);
 }
 
 
@@ -159,14 +183,14 @@ eQuiz.nextQ = function() {
     //if statement to check if quiz is over or is beginning
     if (eQuiz.qNum === 5) {
         console.log('firing end quiz');
-        if ($("input[name='answer']:checked").val() === eQuiz.correctAns) {
+        if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
             eQuiz.score++;
         }
         eQuiz.endQuiz();
     } else {
         console.log('score ' + eQuiz.score)
         //validate answer of q
-        if ($("input[name='answer']:checked").val() === eQuiz.correctAns) {
+        if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
             eQuiz.score++;
         }
         console.log('score ' + eQuiz.score);
@@ -296,7 +320,7 @@ eQuiz.getLocations = function() {
 eQuiz.ansHtmlToAdd = function() {
     eQuiz.ansHtml = '';
     eQuiz.ansArray.forEach(function(item) {
-        eQuiz.ansHtml += `<input type="radio" name="answer" id="${item}" value="${item}">
+        eQuiz.ansHtml += `<input type="radio" name="answer" id="${item}" value="${item}" required>
             <label for="${item}">${item}</label>`;
     });
 }
@@ -338,8 +362,8 @@ eQuiz.endQuiz = function() {
     console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
     const htmlToAdd = `
-        <h3>Congratulations! Your score was:</h3>
-        <p>${eQuiz.score}/5</p>
+        <h3>Congratulations!</h3>
+        <p>Your score was: <span class="scoreEmphasis">${eQuiz.score}/5</span></p>
         <p>${eQuiz.message}</p>
         <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/" data-size="large"><i class="fab fa-twitter"></i> Tweet</a>
     `;
