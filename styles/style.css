@@ -203,17 +203,6 @@ body {
   height: 100vh;
 }
 
-#loading {
-  top: 50%;
-  left: 50%;
-  position: fixed;
-  display: block;
-  opacity: 1;
-  background-color: #fff;
-  z-index: 99;
-  text-align: center;
-}
-
 h1 {
   font-size: 6rem;
   margin-top: 10%;
@@ -297,6 +286,15 @@ header .titleScreen img {
           animation: 10s linear infinite elephantWalk;
 }
 
+header #loading {
+  -webkit-animation: 2s linear infinite loadingAni;
+          animation: 2s linear infinite loadingAni;
+}
+
+header #loadingComplete {
+  display: none;
+}
+
 button {
   display: inline-block;
   margin: 0 auto;
@@ -326,14 +324,11 @@ main .container {
 }
 
 main .questionScreen,
-main .hintToaster,
-main .infoCard,
 main .scoreScreen {
   display: none;
 }
 
 main .questionScreen,
-main .infoCard,
 main .scoreScreen {
   height: 90%;
 }
@@ -365,6 +360,7 @@ footer {
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 15px black;
           box-shadow: 0px 0px 15px black;
+  overflow: hidden;
 }
 
 .questionScreen .hintOnClick {
@@ -430,24 +426,51 @@ footer {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 40%;
-  font-size: 2.2rem;
+  width: 45%;
 }
 
 .questionScreen .answerLayout input[type=radio] {
   display: none;
 }
 
+.questionScreen .answerLayout label {
+  padding: 5%;
+  border: 7px solid transparent;
+}
+
 .questionScreen .answerLayout input[type=radio]:checked + label {
-  background: blue;
+  border: 7px solid #a5c1ff;
+  border-radius: 10px;
 }
 
 .questionScreen .answerLayout label:not(:last-child) {
-  padding-bottom: 10%;
+  margin-bottom: 5%;
 }
 
 .questionScreen .hintToaster {
-  display: none;
+  position: absolute;
+  background: #a5c1ff;
+  border-radius: 10px 10px 0 0;
+  max-width: 250px;
+  padding: 2%;
+  font-size: 2.5rem;
+  text-align: center;
+  bottom: -25%;
+  left: calc(10% + 60px);
+}
+
+.hintToasterIn {
+  -webkit-animation: 1s linear hintToasterFunction;
+          animation: 1s linear hintToasterFunction;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.hintToasterOut {
+  -webkit-animation: 1s linear hintToasterFuncRev;
+          animation: 1s linear hintToasterFuncRev;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes elephantWalk {
@@ -597,6 +620,68 @@ footer {
     right: 100%;
     -webkit-transform: rotate(0);
             transform: rotate(0);
+  }
+}
+
+@-webkit-keyframes loadingAni {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes loadingAni {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes hintToasterFunction {
+  0% {
+    bottom: -25%;
+    left: calc(10% + 60px);
+  }
+  100% {
+    bottom: 0;
+    left: calc(10% + 60px);
+  }
+}
+
+@keyframes hintToasterFunction {
+  0% {
+    bottom: -25%;
+    left: calc(10% + 60px);
+  }
+  100% {
+    bottom: 0;
+    left: calc(10% + 60px);
+  }
+}
+
+@-webkit-keyframes hintToasterFuncRev {
+  0% {
+    bottom: 0;
+    left: calc(10% + 60px);
+  }
+  100% {
+    bottom: -25%;
+    left: calc(10% + 60px);
+  }
+}
+
+@keyframes hintToasterFuncRev {
+  0% {
+    bottom: 0;
+    left: calc(10% + 60px);
+  }
+  100% {
+    bottom: -25%;
+    left: calc(10% + 60px);
   }
 }
 

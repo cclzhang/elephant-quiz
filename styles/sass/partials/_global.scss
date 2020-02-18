@@ -22,6 +22,14 @@ header {
             animation: 10s linear infinite elephantWalk;
         }
     }
+
+    #loading {
+        animation: 2s linear infinite loadingAni;
+    }
+
+    #loadingComplete {
+        display: none;
+    }
 }
 
 button {
@@ -46,14 +54,11 @@ main {
     }
 
     .questionScreen,
-    .hintToaster,
-    .infoCard,
     .scoreScreen {
         display: none;
     }
 
     .questionScreen,
-    .infoCard,
     .scoreScreen {
         height: 90%;
     }
@@ -66,4 +71,3 @@ footer {
     height: 10vh;
     text-align: center;
 }
-

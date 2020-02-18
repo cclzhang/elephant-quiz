@@ -12,7 +12,6 @@ eQuiz.init = () => {
     eQuiz.getE();
     eQuiz.getDom();
     eQuiz.setGlobal();
-    eQuiz.listenUp();
 };
 
 //set global variables
@@ -55,18 +54,19 @@ eQuiz.listenUp = function() {
 eQuiz.submitAns = function(e) {
     e.preventDefault();
     swal({
-        icon: `${eQuiz.shuffledE[eQuiz.qNum].image}`,
-        iconHtml: 'hi?',
-        title: `${eQuiz.shuffledE[eQuiz.qNum].name}`,
-        text: `${eQuiz.shuffledE[eQuiz.qNum].note}`,
+        icon: `${eQuiz.shuffledE[eQuiz.qNum - 1].image}`,
+        title: `${eQuiz.shuffledE[eQuiz.qNum - 1].name}`,
+        text: `${eQuiz.shuffledE[eQuiz.qNum - 1].note}`,
     }).then(eQuiz.nextQ);
 }
 
 eQuiz.toggleHint = function() {
-    if (eQuiz.$hintToaster.css("display") === "block") {
-        eQuiz.$hintToaster.hide();
+    if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
+        eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
+    } else if (eQuiz.$hintToaster.hasClass("hintToasterOut")) {
+        eQuiz.$hintToaster.removeClass("hintToasterOut").addClass('hintToasterIn');
     } else {
-        eQuiz.$hintToaster.show();
+        eQuiz.$hintToaster.addClass("hintToasterIn");
     }
     console.log('whats up');
 }
@@ -124,7 +124,11 @@ eQuiz.gatherE = function(data) {
     console.log('shuffling elephants');
     eQuiz.shuffledE = [];
     eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
-    // $('#loading').hide();
+    setTimeout(function() {
+        $('#loading').hide();
+        $('#loadingComplete').show();
+        eQuiz.listenUp();
+    }, 3500);
 }
 
 
@@ -135,11 +139,8 @@ eQuiz.startQuiz = function() {
     eQuiz.$header.hide();
     eQuiz.$main.show();
     eQuiz.$qScreen.show();
-    //set question & answers
+    //set question & answers & load
     eQuiz.nextQ();
-    //load question
-    eQuiz.ansHtmlToAdd();
-    eQuiz.compileHtmlDom();
 }
 
 //////////////////////////////////////////////////////////////// DONEEEEE
@@ -178,10 +179,15 @@ eQuiz.quizInit = function() {
     eQuiz.ansArray = [];
     eQuiz.setQ();
     eQuiz.setA();
-    eQuiz.qNum++;
     //load question
     eQuiz.ansHtmlToAdd();
     eQuiz.compileHtmlDom();
+    //ensure hinttoaster is closed if left open
+    if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
+        eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
+    }
+    eQuiz.qNum++;
+    console.log('qnum++');
 }
 
 // answer section
@@ -297,6 +303,7 @@ eQuiz.ansHtmlToAdd = function() {
 
 //html section
 eQuiz.compileHtmlDom = function() {
+    console.log('compiling html');
     const formToAdd = `
         <div class="headerContainer">
             <h3>${eQuiz.currentQ}</h3>
