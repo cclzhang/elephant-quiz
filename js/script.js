@@ -54,12 +54,11 @@ eQuiz.listenUp = function() {
 eQuiz.submitAns = function(e) {
     e.preventDefault();
     if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
-        eQuiz.ansIcon = "../assets/checkmark.png";
+        eQuiz.ansIcon = "./assets/checkmark.png";
         // eQuiz.ansIcon = "warning";
     } else {
-        eQuiz.ansIcon = "../assets/wrong.png";        
+        eQuiz.ansIcon = "./assets/wrong.png";        
         // eQuiz.ansIcon = "warning"
-
     }
     swal({
         title: `Meet ${eQuiz.shuffledE[eQuiz.qNum - 1].name}!`,
@@ -146,10 +145,8 @@ eQuiz.gatherE = function(data) {
             eQuiz.arrayOfE.push({name: elephant.name, affiliation: elephant.affiliation, species: elephant.species, sex: elephant.sex, image: elephant.image, note: elephant.note, wikilink: elephant.wikilink});
         }
     });
-    //randomize array of elephants
-    console.log('shuffling elephants');
-    eQuiz.shuffledE = [];
-    eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
+    //shuffle the elephants
+    eQuiz.shuffleE();
     setTimeout(function() {
         $('#loading').hide();
         eQuiz.$startB.removeClass("cursorDefault");
@@ -157,7 +154,6 @@ eQuiz.gatherE = function(data) {
         eQuiz.listenUp();
     }, 1500);
 }
-
 
 //start the quiz
 eQuiz.startQuiz = function() {
@@ -360,19 +356,36 @@ eQuiz.endQuiz = function() {
     } else if (eQuiz.score === 5) {
         eQuiz.message = "You're an elephant whisperer!";
     } else {
-        eQuiz.message = "Sorry you broke our score system";
+        eQuiz.message = "Sorry you broke our score system :(";
     }
     console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
     const htmlToAdd = `
-        <h3>Congratulations!</h3>
-        <p>Your score was: <span class="scoreEmphasis">${eQuiz.score}/5</span></p>
-        <p>${eQuiz.message}</p>
-        <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/" data-size="large"><i class="fab fa-twitter"></i> Tweet</a>
-        <button class="reset">Play Again</button>
+        <div class="scoreContainer">
+            <h3>Congratulations!</h3>
+            <p>Your score was: <span class="scoreEmphasis">${eQuiz.score}/5</span></p>
+            <p>${eQuiz.message}</p>
+            <div class="scoreButtonContainer">
+                <a href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/%20%23junocollege%20%40cclzhang%20%40stephqqmore"><button class="twitter-share-button"><i class="fab fa-twitter"></i> Tweet</button></a>
+                <button class="reset">Play Again</button>
+            </div>
+            <a href="https://tinyurl.com/wqwmyys" target="_blank"><button class="saveTheElephants">Stop Wildlife Crime</button></a>
+        </div>
     `;
     eQuiz.$scoreScreen.show().html(htmlToAdd);
+    //shuffle elephants in preparation for new game
+    eQuiz.shuffleE();
+    eQuiz.reset();
+}
 
+eQuiz.shuffleE = function() {
+    //randomize array of elephants
+    console.log('shuffling elephants');
+    eQuiz.shuffledE = [];
+    eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
+}
+
+eQuiz.reset = function() {
     eQuiz.$scoreScreen.on("click", ".reset", function () {
         eQuiz.qNum = 0;
         eQuiz.score = 0;
@@ -380,5 +393,3 @@ eQuiz.endQuiz = function() {
         eQuiz.startQuiz();
     });
 }
-
-
