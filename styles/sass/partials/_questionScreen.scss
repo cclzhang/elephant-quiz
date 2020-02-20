@@ -76,11 +76,16 @@
 
         &:focus + label {
             background: $accent;
+            border: 1px solid $black;
         }
     }
 
     label {
+        border: 1px dotted transparent;
         padding: 5%;
+        &:hover {
+            background: rgba($accent, 0.5);
+        }
     }
 
     input[type=radio]:checked + label{

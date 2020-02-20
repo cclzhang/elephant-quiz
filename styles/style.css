@@ -552,10 +552,16 @@ header #loadingComplete {
 
 .answerLayout input[type=radio]:focus + label {
   background: #ffbc8f;
+  border: 1px solid #30352a;
 }
 
 .answerLayout label {
+  border: 1px dotted transparent;
   padding: 5%;
+}
+
+.answerLayout label:hover {
+  background: rgba(255, 188, 143, 0.5);
 }
 
 .answerLayout input[type=radio]:checked + label {
