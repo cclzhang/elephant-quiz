@@ -18,7 +18,9 @@ header {
         box-shadow: 0px 0px 15px $black;
 
         img {
-            width: 25%;
+            width: 35%;
+            max-width: 250px;
+            min-width: 135px;
             position: absolute;
             animation: 10s linear infinite elephantWalk;
         }
@@ -33,6 +35,11 @@ header {
     }
 }
 
+.start {
+    z-index: 100;
+    width: 275px;
+}
+
 button {
     display: inline-block;
     margin: 0 auto;
@@ -40,10 +47,26 @@ button {
     background: $accent;
     padding: 20px;
     border-radius: 10px;
-    &:focus{
-        border: 2px solid black;
+    &:focus:not(.start):not(.hintOnClick), 
+    &:hover:not(.start):not(.hintOnClick){
+        background: $black;
+        color: $accent;
+    }
+    &:focus:not(.start):not(.hintOnClick) span, 
+    &:hover:not(.start):not(.hintOnClick) span {
+        color: $accent;
     }
 }
+
+#loadingComplete:hover, 
+.start:focus {
+    font-weight: 700;
+    color: $black;
+}
+.start:active {
+    border-bottom: 2px solid $black;
+}
+
 
 .cursorDefault:hover {
     cursor: default;
@@ -76,13 +99,22 @@ main {
         border-radius: 10px;
         box-shadow: 0px 0px 15px $black;
         overflow: hidden;
-
         .scoreContainer {
             height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
+        }
+    }
+    .saveTheElephants {
+        text-decoration-color: $accent;
+        text-decoration-thickness: 4px;
+        color: $black;
+        &:focus, 
+        &:hover {
+            background: $accent;
+            outline: none;
         }
     }
 }
@@ -93,4 +125,9 @@ footer {
     justify-content: center;
     height: 10vh;
     text-align: center;
+    a:focus, 
+    a:hover {
+        background: $accent;
+        outline: none;
+    }
 }

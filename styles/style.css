@@ -203,6 +203,10 @@ body {
   height: 100vh;
 }
 
+* {
+  color: #282c23;
+}
+
 h1 {
   font-size: 6rem;
   margin-top: 10%;
@@ -227,15 +231,6 @@ h3 {
   text-align: center;
 }
 
-@media (max-width: 400px) {
-  h1 {
-    font-size: 4rem;
-  }
-  h2 {
-    font-size: 2rem;
-  }
-}
-
 footer {
   font-size: 1.5rem;
 }
@@ -244,7 +239,7 @@ footer a {
   -webkit-text-decoration-color: #ffbc8f;
           text-decoration-color: #ffbc8f;
   text-decoration-thickness: 4px;
-  color: black;
+  color: #282c23;
 }
 
 header {
@@ -276,12 +271,14 @@ header .titleScreen {
           flex-direction: column;
   padding: 7%;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px black;
-          box-shadow: 0px 0px 15px black;
+  -webkit-box-shadow: 0px 0px 15px #282c23;
+          box-shadow: 0px 0px 15px #282c23;
 }
 
 header .titleScreen img {
-  width: 25%;
+  width: 35%;
+  max-width: 250px;
+  min-width: 135px;
   position: absolute;
   -webkit-animation: 10s linear infinite elephantWalk;
           animation: 10s linear infinite elephantWalk;
@@ -296,6 +293,11 @@ header #loadingComplete {
   display: none;
 }
 
+.start {
+  z-index: 100;
+  width: 275px;
+}
+
 button {
   display: inline-block;
   margin: 0 auto;
@@ -305,8 +307,24 @@ button {
   border-radius: 10px;
 }
 
-button:focus {
-  border: 2px solid black;
+button:focus:not(.start):not(.hintOnClick), button:hover:not(.start):not(.hintOnClick) {
+  background: #282c23;
+  color: #ffbc8f;
+}
+
+button:focus:not(.start):not(.hintOnClick) span,
+button:hover:not(.start):not(.hintOnClick) span {
+  color: #ffbc8f;
+}
+
+#loadingComplete:hover,
+.start:focus {
+  font-weight: 700;
+  color: #282c23;
+}
+
+.start:active {
+  border-bottom: 2px solid #282c23;
 }
 
 .cursorDefault:hover {
@@ -345,8 +363,8 @@ main .scoreScreen {
   height: 90%;
   padding: 7%;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px black;
-          box-shadow: 0px 0px 15px black;
+  -webkit-box-shadow: 0px 0px 15px #282c23;
+          box-shadow: 0px 0px 15px #282c23;
   overflow: hidden;
 }
 
@@ -367,6 +385,18 @@ main .scoreScreen .scoreContainer {
           justify-content: space-between;
 }
 
+main .saveTheElephants {
+  -webkit-text-decoration-color: #ffbc8f;
+          text-decoration-color: #ffbc8f;
+  text-decoration-thickness: 4px;
+  color: #282c23;
+}
+
+main .saveTheElephants:focus, main .saveTheElephants:hover {
+  background: #ffbc8f;
+  outline: none;
+}
+
 footer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -379,6 +409,12 @@ footer {
           justify-content: center;
   height: 10vh;
   text-align: center;
+}
+
+footer a:focus,
+footer a:hover {
+  background: #ffbc8f;
+  outline: none;
 }
 
 .swal-icon {
@@ -413,8 +449,8 @@ footer {
   position: relative;
   padding: 7%;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px black;
-          box-shadow: 0px 0px 15px black;
+  -webkit-box-shadow: 0px 0px 15px #282c23;
+          box-shadow: 0px 0px 15px #282c23;
   overflow: hidden;
 }
 
@@ -427,8 +463,20 @@ footer {
   background: none;
 }
 
+.questionScreen .hintOnClick:hover {
+  cursor: pointer;
+}
+
+.questionScreen .hintOnClick:hover i {
+  color: #ffbc8f;
+}
+
 .questionScreen .hintOnClick i {
   font-size: 4rem;
+}
+
+.questionScreen .hintOnClick:focus i {
+  border: 1px solid #282c23;
 }
 
 .questionScreen .question {
@@ -473,7 +521,16 @@ footer {
   margin: 0 auto;
 }
 
-.questionScreen .answerLayout {
+.questionScreen .hintToaster {
+  position: absolute;
+  max-width: 250px;
+  padding: 2%;
+  text-align: center;
+  bottom: -30%;
+  left: calc(10% + 60px);
+}
+
+.answerLayout {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -484,38 +541,29 @@ footer {
   width: 45%;
 }
 
-.questionScreen .answerLayout input[type=radio] {
+.answerLayout input[type=radio] {
   opacity: 0;
 }
 
-.questionScreen .answerLayout input[type=radio]:focus + label {
+.answerLayout input[type=radio]:focus + label {
   background: #ffbc8f;
 }
 
-.questionScreen .answerLayout label {
+.answerLayout label {
   padding: 5%;
 }
 
-.questionScreen .answerLayout input[type=radio]:checked + label {
+.answerLayout input[type=radio]:checked + label {
   background: #ffbc8f;
 }
 
-.questionScreen .answerLayout label:not(:last-child) {
+.answerLayout label:not(:last-child) {
   margin-bottom: 5%;
 }
 
-.questionScreen .hintToaster {
-  position: absolute;
-  max-width: 250px;
-  padding: 2%;
-  text-align: center;
-  bottom: -25%;
-  left: calc(10% + 60px);
-}
-
 .hintToasterIn {
-  -webkit-animation: 1s linear hintToasterFunction;
-          animation: 1s linear hintToasterFunction;
+  -webkit-animation: 0.5s ease-out hintToasterFunction;
+          animation: 0.5s ease-out hintToasterFunction;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
@@ -757,7 +805,7 @@ footer {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .questionScreen .questionLayout {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -767,5 +815,38 @@ footer {
   }
   .questionScreen .answerLayout {
     width: 95%;
+  }
+}
+
+@media (max-width: 450px) {
+  .wrapper {
+    width: 100%;
+  }
+  main .questionScreen,
+  header .titleScreen {
+    height: 100%;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    border-radius: 0;
+    background: #fff5d8;
+  }
+  h3 {
+    font-size: 2.5rem;
+  }
+  .answerLayout label:not(:last-child) {
+    margin: 0;
+  }
+  .answerLayout label {
+    padding: 3%;
+  }
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  .start {
+    font-size: 1.6rem;
+    width: 235px;
   }
 }

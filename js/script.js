@@ -88,10 +88,13 @@ eQuiz.submitAns = function(e) {
 eQuiz.toggleHint = function() {
     if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
         eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
+        $(".hintOnClick i").css("color", "rgb(40, 44, 35)");
     } else if (eQuiz.$hintToaster.hasClass("hintToasterOut")) {
         eQuiz.$hintToaster.removeClass("hintToasterOut").addClass('hintToasterIn');
+        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
     } else {
         eQuiz.$hintToaster.addClass("hintToasterIn");
+        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
     }
     console.log('whats up');
 }
@@ -150,9 +153,10 @@ eQuiz.gatherE = function(data) {
     setTimeout(function() {
         $('#loading').hide();
         eQuiz.$startB.removeClass("cursorDefault");
+        eQuiz.$startB.attr("tabindex", "1");
         $('#loadingComplete').show();
         eQuiz.listenUp();
-    }, 1500);
+    }, 1200);
 }
 
 //start the quiz
@@ -366,10 +370,10 @@ eQuiz.endQuiz = function() {
             <p>Your score was: <span class="scoreEmphasis">${eQuiz.score}/5</span></p>
             <p>${eQuiz.message}</p>
             <div class="scoreButtonContainer">
-                <a href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/%20%23junocollege%20%40cclzhang%20%40stephqqmore"><button class="twitter-share-button"><i class="fab fa-twitter"></i> Tweet</button></a>
+                <a href="https://twitter.com/intent/tweet?text=I%20just%20took%20the%20elephant%20quiz%20and%20I%20got%20${eQuiz.score / 5 * 100}%25.%20Test%20your%20elephant%20knowledge%20here:%20https://cecile-stephanie.github.io/elephantQuiz/%20%23junocollege%20%40cclzhang%20%40stephqqmore" tabindex="-1"><button class="twitter-share-button"><i class="fab fa-twitter"></i> Tweet</button></a>
                 <button class="reset">Play Again</button>
             </div>
-            <a href="https://tinyurl.com/wqwmyys" target="_blank"><button class="saveTheElephants">Stop Wildlife Crime</button></a>
+            <a href="https://tinyurl.com/wqwmyys" class="saveTheElephants" target="_blank">Stop Wildlife Crime</a>
         </div>
     `;
     eQuiz.$scoreScreen.show().html(htmlToAdd);

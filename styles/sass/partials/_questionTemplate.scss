@@ -15,9 +15,17 @@
         padding: 15px 25px;
         border-radius: 0;
         background: none;
-
+        &:hover {
+            cursor: pointer;
+        }
+        &:hover i {
+            color: $accent;
+        }
         i {
             font-size: 4rem;
+        }
+        &:focus i{
+            border: 1px solid $black;
         }
     }
 
@@ -48,35 +56,6 @@
             margin: 0 auto;
         }
     }
-
-    .answerLayout {
-        display: flex;
-        flex-direction: column;
-        width: 45%;
-
-        input[type=radio] {
-            opacity: 0;
-
-            &:focus + label {
-                background: $accent;
-            }
-        }
-
-        label {
-            padding: 5%;
-            // border: 7px solid transparent;
-        }
-
-        input[type=radio]:checked + label{
-            // border: 7px solid $accent;
-            // border-radius: 10px;
-            background: $accent;
-        }
-
-        label:not(:last-child) {
-            margin-bottom: 5%;
-        }
-    }
     .hintToaster {
         position: absolute;
         // background: $accent;
@@ -84,13 +63,42 @@
         max-width: 250px;
         padding: 2%;
         text-align: center;
-        bottom: -25%;
+        bottom: -30%;
         left: calc(10% + 60px);
     }
 }
 
+.answerLayout {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+
+    input[type=radio] {
+        opacity: 0;
+
+        &:focus + label {
+            background: $accent;
+        }
+    }
+
+    label {
+        padding: 5%;
+    }
+
+    input[type=radio]:checked + label{
+        // border: 7px solid $accent;
+        // border-radius: 10px;
+        background: $accent;
+    }
+
+    label:not(:last-child) {
+        margin-bottom: 5%;
+    }
+}
+
+
 .hintToasterIn {
-    animation: 1s linear hintToasterFunction;
+    animation: 0.5s ease-out hintToasterFunction;
     animation-fill-mode: forwards;
 }
 
