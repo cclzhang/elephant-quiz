@@ -2,16 +2,14 @@ const eQuiz = {};
 
 // doc ready
 $(()=>{
-    console.log('doc ready');
     eQuiz.init();
 });
 
 // eQuiz initialization
 eQuiz.init = () => {
-    console.log('init fired');
-    eQuiz.getE();
-    eQuiz.getDom();
     eQuiz.setGlobal();
+    eQuiz.getDom();
+    eQuiz.getE();
 };
 
 //set global variables
@@ -32,80 +30,17 @@ eQuiz.getDom = () => {
     eQuiz.$header = $("header");
     eQuiz.$startB = $(".start");
     eQuiz.$main = $("main");
-    // 
     eQuiz.$qScreen = $(".questionScreen");
     eQuiz.$questionForm = $("form");
     eQuiz.$hintToaster = $(".hintToaster");
     eQuiz.$getHint = $(".hintOnClick");
-    // 
     eQuiz.$infoCard = $(".infoCard");
-    // 
     eQuiz.$scoreScreen = $(".scoreScreen");
 };
 
-
-//set up event listeners
-eQuiz.listenUp = function() {
-    eQuiz.$startB.on('click', eQuiz.startQuiz);
-    eQuiz.$questionForm.on('submit', eQuiz.submitAns);
-    eQuiz.$getHint.on('click', eQuiz.toggleHint);
-}
-
-eQuiz.submitAns = function(e) {
-    e.preventDefault();
-    if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
-        eQuiz.ansIcon = "./assets/checkmark.png";
-        // eQuiz.ansIcon = "warning";
-    } else {
-        eQuiz.ansIcon = "./assets/wrong.png";        
-        // eQuiz.ansIcon = "warning"
-    }
-    swal({
-        title: `Meet ${eQuiz.shuffledE[eQuiz.qNum - 1].name}!`,
-        text: `${eQuiz.shuffledE[eQuiz.qNum - 1].note}`,
-        icon: eQuiz.ansIcon,
-        buttons: {
-            wiki: {
-                text: "Learn more!",
-                closeModal: false,
-                value: "openlink",
-            },
-            confirm: {
-                text: "Next!",
-            }
-        },
-    }).then(function(value) {
-        if (value === "openlink") {
-            const win = window.open(`${eQuiz.shuffledE[eQuiz.qNum - 1].wikilink}`);
-            win.focus();
-            eQuiz.nextQ();
-        } else {
-            eQuiz.nextQ();
-        }
-    });
-}
-
-eQuiz.toggleHint = function() {
-    if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
-        eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
-        $(".hintOnClick i").css("color", "rgb(40, 44, 35)");
-    } else if (eQuiz.$hintToaster.hasClass("hintToasterOut")) {
-        eQuiz.$hintToaster.removeClass("hintToasterOut").addClass('hintToasterIn');
-        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
-    } else {
-        eQuiz.$hintToaster.addClass("hintToasterIn");
-        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
-    }
-    console.log('whats up');
-}
-
-// E = elephant
 // use ajax to get the API
 eQuiz.getE = () => {
     $.ajax({
-        // const elephantUrl = `https://elephant-api.herokuapp.com/`;
-        // const allElephants = "elephants";
-        // const randomE = "random";
         url: 'https://proxy.hackeryou.com',
         dataType: 'json',
         method: 'GET',
@@ -115,7 +50,6 @@ eQuiz.getE = () => {
             useCache: false
         }
     }).then(function (data) {
-        console.log('firing api');
         eQuiz.gatherE(data);
     });
 };
@@ -134,13 +68,18 @@ eQuiz.shuffle = function (tempArray, originalArray) {
     }// repeat
 }
 
-
 eQuiz.randomize = (array) => {
     return array[Math.floor(Math.random() * array.length)];
 };
 
+//set up event listeners
+eQuiz.listenUp = function () {
+    eQuiz.$startB.on('click', eQuiz.startQuiz);
+    eQuiz.$questionForm.on('submit', eQuiz.submitAns);
+    eQuiz.$getHint.on('click', eQuiz.toggleHint);
+}
+
 eQuiz.gatherE = function(data) {
-    console.log('gathering elephants together');
     eQuiz.arrayOfE = [];
     data.forEach(function(elephant) {
         //process complete data only into array
@@ -161,7 +100,6 @@ eQuiz.gatherE = function(data) {
 
 //start the quiz
 eQuiz.startQuiz = function() {
-    console.log('quiz has been fired');
     //show/hide screens
     eQuiz.$header.hide();
     eQuiz.$main.show();
@@ -170,33 +108,72 @@ eQuiz.startQuiz = function() {
     eQuiz.nextQ();
 }
 
+eQuiz.toggleHint = function () {
+    if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
+        eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
+        $(".hintOnClick i").css("color", "rgb(40, 44, 35)");
+    } else if (eQuiz.$hintToaster.hasClass("hintToasterOut")) {
+        eQuiz.$hintToaster.removeClass("hintToasterOut").addClass('hintToasterIn');
+        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
+    } else {
+        eQuiz.$hintToaster.addClass("hintToasterIn");
+        $(".hintOnClick i").css("color", "rgb(255, 188, 143)");
+    }
+}
+
+eQuiz.submitAns = function (e) {
+    e.preventDefault();
+    if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
+        eQuiz.ansIcon = "./assets/checkmark.png";
+        // eQuiz.ansIcon = "warning";
+    } else {
+        eQuiz.ansIcon = "./assets/wrong.png";
+        // eQuiz.ansIcon = "warning"
+    }
+    swal({
+        title: `Meet ${eQuiz.shuffledE[eQuiz.qNum - 1].name}!`,
+        text: `${eQuiz.shuffledE[eQuiz.qNum - 1].note}`,
+        icon: eQuiz.ansIcon,
+        buttons: {
+            wiki: {
+                text: "Learn more!",
+                closeModal: false,
+                value: "openlink",
+            },
+            confirm: {
+                text: "Next!",
+            }
+        },
+    }).then(function (value) {
+        if (value === "openlink") {
+            const win = window.open(`${eQuiz.shuffledE[eQuiz.qNum - 1].wikilink}`);
+            win.focus();
+            eQuiz.nextQ();
+        } else {
+            eQuiz.nextQ();
+        }
+    });
+}
 //////////////////////////////////////////////////////////////// DONEEEEE
 // question section
 eQuiz.qBank = ["What is my sex?", "What species am I?", "What is my name?", "Where am I from?"];
 
 eQuiz.setQ = function() {
-    console.log('question being set');
     eQuiz.currentQ = eQuiz.randomize(eQuiz.qBank);
-    console.log('question set: ' + eQuiz.currentQ);
 };
 
 eQuiz.nextQ = function() {
-    console.log('nextQ fired');
-    console.log(eQuiz.qNum);
     //if statement to check if quiz is over or is beginning
     if (eQuiz.qNum === 5) {
-        console.log('firing end quiz');
         if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
             eQuiz.score++;
         }
         eQuiz.endQuiz();
     } else {
-        console.log('score ' + eQuiz.score)
         //validate answer of q
         if (eQuiz.correctAns.includes($("input[name='answer']:checked").val())) {
             eQuiz.score++;
         }
-        console.log('score ' + eQuiz.score);
         eQuiz.quizInit();
     }
 }
@@ -212,9 +189,9 @@ eQuiz.quizInit = function() {
     //ensure hinttoaster is closed if left open
     if (eQuiz.$hintToaster.hasClass("hintToasterIn")) {
         eQuiz.$hintToaster.addClass('hintToasterOut').removeClass('hintToasterIn');
+        $(".hintOnClick i").css("color", "rgb(40, 44, 35)");
     }
     eQuiz.qNum++;
-    console.log('qnum++');
 }
 
 // answer section
@@ -274,47 +251,31 @@ eQuiz.getNames = function() {
     eQuiz.gatherNameList();
     eQuiz.namesAns = [];
     // shuffle namesList and put it into namesAns
-// console.log("original ans array", eQuiz.ansArray);
     eQuiz.shuffle(eQuiz.namesAns, eQuiz.namesList);
-// console.log("namesList", eQuiz.namesList);
-// console.log("namesAns", eQuiz.namesAns);
-// console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].name);
     // filter: so namesAnswer will include all names without the correct name
     eQuiz.namesAns = eQuiz.namesAns.filter(function(item){
         return item !== eQuiz.shuffledE[eQuiz.qNum].name
     });
-// console.log("filtered namesAns", eQuiz.namesAns);
     // slice out the first 3 random names from namesAns
     eQuiz.namesAns = eQuiz.namesAns.slice(0, 3);
-// console.log("sliced namesAns", eQuiz.namesAns);
     //grab correct elephant name and put into namesAns
     eQuiz.namesAns.push(eQuiz.shuffledE[eQuiz.qNum].name);
-// console.log("namesAns with right and wrong ans", eQuiz.namesAns);
     // shuffle namesAns and put it into ansArray
     eQuiz.shuffle(eQuiz.ansArray, eQuiz.namesAns);
     // variable for the right answer to use later
-// console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].name;
 }
 
 eQuiz.getLocations = function() {
     eQuiz.gatherLocationList();
     eQuiz.locationAns = [];
-// console.log("original ans array", eQuiz.ansArray);
     eQuiz.shuffle(eQuiz.locationAns, eQuiz.locationList);
-// console.log("locationList", eQuiz.locationList);
-// console.log("locationAns", eQuiz.locationAns);
-// console.log("right answer", eQuiz.shuffledE[eQuiz.qNum].affiliation);
     eQuiz.locationAns = eQuiz.locationAns.filter(function (item) {
         return item !== eQuiz.shuffledE[eQuiz.qNum].affiliation;
     });
-// console.log("filtered locationAns", eQuiz.locationAns);
     eQuiz.locationAns = eQuiz.locationAns.slice(0, 3);
-// console.log("sliced locationAns", eQuiz.locationAns);
     eQuiz.locationAns.push(eQuiz.shuffledE[eQuiz.qNum].affiliation);
-// console.log("locationAns with right and wrong ans", eQuiz.locationAns);
     eQuiz.shuffle(eQuiz.ansArray, eQuiz.locationAns);
-// console.log("shuffled answers", eQuiz.ansArray);
     eQuiz.correctAns = eQuiz.shuffledE[eQuiz.qNum].affiliation;
 }
 
@@ -330,7 +291,6 @@ eQuiz.ansHtmlToAdd = function() {
 
 //html section
 eQuiz.compileHtmlDom = function() {
-    console.log('compiling html');
     const formToAdd = `
         <div class="headerContainer">
             <h3>${eQuiz.currentQ}</h3>
@@ -362,7 +322,6 @@ eQuiz.endQuiz = function() {
     } else {
         eQuiz.message = "Sorry you broke our score system :(";
     }
-    console.log(eQuiz.score);
     eQuiz.$qScreen.hide();
     const htmlToAdd = `
         <div class="scoreContainer">
@@ -384,7 +343,6 @@ eQuiz.endQuiz = function() {
 
 eQuiz.shuffleE = function() {
     //randomize array of elephants
-    console.log('shuffling elephants');
     eQuiz.shuffledE = [];
     eQuiz.shuffle(eQuiz.shuffledE, eQuiz.arrayOfE);
 }

@@ -204,7 +204,7 @@ body {
 }
 
 * {
-  color: #282c23;
+  color: #30352a;
 }
 
 h1 {
@@ -239,63 +239,7 @@ footer a {
   -webkit-text-decoration-color: #ffbc8f;
           text-decoration-color: #ffbc8f;
   text-decoration-thickness: 4px;
-  color: #282c23;
-}
-
-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 90vh;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  position: relative;
-}
-
-header .titleScreen {
-  background: #e3ffc7;
-  width: 100%;
-  height: 90%;
-  position: relative;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding: 7%;
-  border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px #282c23;
-          box-shadow: 0px 0px 15px #282c23;
-}
-
-header .titleScreen img {
-  width: 35%;
-  max-width: 250px;
-  min-width: 135px;
-  position: absolute;
-  -webkit-animation: 10s linear infinite elephantWalk;
-          animation: 10s linear infinite elephantWalk;
-}
-
-header #loading {
-  -webkit-animation: 2s linear infinite loadingAni;
-          animation: 2s linear infinite loadingAni;
-}
-
-header #loadingComplete {
-  display: none;
-}
-
-.start {
-  z-index: 100;
-  width: 275px;
+  color: #30352a;
 }
 
 button {
@@ -308,27 +252,13 @@ button {
 }
 
 button:focus:not(.start):not(.hintOnClick), button:hover:not(.start):not(.hintOnClick) {
-  background: #282c23;
+  background: #30352a;
   color: #ffbc8f;
 }
 
 button:focus:not(.start):not(.hintOnClick) span,
 button:hover:not(.start):not(.hintOnClick) span {
   color: #ffbc8f;
-}
-
-#loadingComplete:hover,
-.start:focus {
-  font-weight: 700;
-  color: #282c23;
-}
-
-.start:active {
-  border-bottom: 2px solid #282c23;
-}
-
-.cursorDefault:hover {
-  cursor: default;
 }
 
 main {
@@ -358,13 +288,13 @@ main .scoreScreen {
 }
 
 main .scoreScreen {
-  background: #e3ffc7;
+  background: #fff5d8;
   width: 100%;
   height: 90%;
   padding: 7%;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px #282c23;
-          box-shadow: 0px 0px 15px #282c23;
+  -webkit-box-shadow: 0px 0px 15px #30352a;
+          box-shadow: 0px 0px 15px #30352a;
   overflow: hidden;
 }
 
@@ -385,11 +315,20 @@ main .scoreScreen .scoreContainer {
           justify-content: space-between;
 }
 
+main .scoreScreen i {
+  font-size: 1.6rem;
+}
+
+main .scoreScreen button:hover i,
+main .scoreScreen button:focus i {
+  color: #ffbc8f;
+}
+
 main .saveTheElephants {
   -webkit-text-decoration-color: #ffbc8f;
           text-decoration-color: #ffbc8f;
   text-decoration-thickness: 4px;
-  color: #282c23;
+  color: #30352a;
 }
 
 main .saveTheElephants:focus, main .saveTheElephants:hover {
@@ -415,6 +354,72 @@ footer a:focus,
 footer a:hover {
   background: #ffbc8f;
   outline: none;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 90vh;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+}
+
+header .titleScreen {
+  background: #fff5d8;
+  width: 100%;
+  height: 90%;
+  position: relative;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 7%;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 15px #30352a;
+          box-shadow: 0px 0px 15px #30352a;
+}
+
+header .titleScreen img {
+  width: 35%;
+  max-width: 250px;
+  min-width: 135px;
+  position: absolute;
+  -webkit-animation: 10s linear infinite elephantWalk;
+          animation: 10s linear infinite elephantWalk;
+}
+
+header #loading {
+  -webkit-animation: 2s linear infinite loadingAni;
+          animation: 2s linear infinite loadingAni;
+}
+
+header #loadingComplete {
+  display: none;
+}
+
+.start {
+  z-index: 100;
+  width: 275px;
+}
+
+#loadingComplete:hover,
+.start:focus #loadingComplete {
+  font-weight: 700;
+  color: #30352a;
+}
+
+.cursorDefault:hover {
+  cursor: default;
 }
 
 .swal-icon {
@@ -443,14 +448,14 @@ footer a:hover {
 }
 
 .questionScreen {
-  background: #e3ffc7;
+  background: #fff5d8;
   width: 100%;
   height: 90%;
   position: relative;
   padding: 7%;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 15px #282c23;
-          box-shadow: 0px 0px 15px #282c23;
+  -webkit-box-shadow: 0px 0px 15px #30352a;
+          box-shadow: 0px 0px 15px #30352a;
   overflow: hidden;
 }
 
@@ -476,7 +481,7 @@ footer a:hover {
 }
 
 .questionScreen .hintOnClick:focus i {
-  border: 1px solid #282c23;
+  border: 1px solid #30352a;
 }
 
 .questionScreen .question {
@@ -805,16 +810,25 @@ footer a:hover {
   }
 }
 
-@media (max-width: 800px) {
-  .questionScreen .questionLayout {
+@media (max-width: 700px) {
+  .questionLayout {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
     text-align: center;
   }
-  .questionScreen .answerLayout {
+  .answerLayout {
     width: 95%;
+  }
+  .answerLayout label {
+    padding: 3%;
+  }
+  .answerLayout label:not(:last-child) {
+    margin: 0;
+  }
+  img {
+    max-height: 200px;
   }
 }
 
@@ -823,21 +837,16 @@ footer a:hover {
     width: 100%;
   }
   main .questionScreen,
-  header .titleScreen {
+  header .titleScreen,
+  main .scoreScreen {
     height: 100%;
     -webkit-box-shadow: none;
             box-shadow: none;
     border-radius: 0;
     background: #fff5d8;
   }
-  h3 {
-    font-size: 2.5rem;
-  }
-  .answerLayout label:not(:last-child) {
-    margin: 0;
-  }
-  .answerLayout label {
-    padding: 3%;
+  main .scoreScreen {
+    height: 75%;
   }
   h1 {
     font-size: 4rem;
@@ -845,8 +854,69 @@ footer a:hover {
   h2 {
     font-size: 2rem;
   }
+  h3 {
+    font-size: 2.5rem;
+  }
+  p {
+    text-align: center;
+  }
   .start {
     font-size: 1.6rem;
     width: 235px;
+  }
+  .questionScreen button {
+    padding: 13px;
+  }
+  .questionScreen .hintOnClick {
+    left: 3%;
+  }
+  .questionScreen .hintOnClick i {
+    font-size: 3rem;
+  }
+  .questionScreen .hintToaster {
+    bottom: -25%;
+    left: calc(3% + 50px);
+    font-size: 1.6rem;
+    width: 150px;
+  }
+  @-webkit-keyframes hintToasterFunction {
+    0% {
+      bottom: -25%;
+      left: calc(3% + 50px);
+    }
+    100% {
+      bottom: 0;
+      left: calc(3% + 50px);
+    }
+  }
+  @keyframes hintToasterFunction {
+    0% {
+      bottom: -25%;
+      left: calc(3% + 50px);
+    }
+    100% {
+      bottom: 0;
+      left: calc(3% + 50px);
+    }
+  }
+  @-webkit-keyframes hintToasterFuncRev {
+    0% {
+      bottom: 0;
+      left: calc(3% + 50px);
+    }
+    100% {
+      bottom: -25%;
+      left: calc(3% + 50px);
+    }
+  }
+  @keyframes hintToasterFuncRev {
+    0% {
+      bottom: 0;
+      left: calc(3% + 50px);
+    }
+    100% {
+      bottom: -25%;
+      left: calc(3% + 50px);
+    }
   }
 }

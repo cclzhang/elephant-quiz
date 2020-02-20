@@ -1,12 +1,19 @@
-@media (max-width: 800px) {
-    .questionScreen {
-        .questionLayout {
-            flex-direction: column;
-            text-align: center;
+@media (max-width: 700px) {
+    .questionLayout {
+        flex-direction: column;
+        text-align: center;
+    }
+    .answerLayout {
+        width: 95%;
+        label {
+            padding: 3%;
         }
-        .answerLayout {
-            width: 95%;
+        label:not(:last-child) {
+            margin:0;
         }
+    }
+    img {
+        max-height: 200px;
     }
 }
 
@@ -16,35 +23,20 @@
     }
 
     main .questionScreen, 
-    header .titleScreen {
+    header .titleScreen, 
+    main .scoreScreen {
         height: 100%;
         box-shadow: none;
         border-radius: 0;
         background: $secondary;
     }
 
-    h3 {
-        font-size: 2.5rem;
-    }
-
-    .answerLayout label:not(:last-child) {
-        margin:0;
-    }
-
-    .answerLayout label {
-        padding: 3%;
+    main .scoreScreen {
+        height: 75%;
     }
 
 
-    // .answerLayout {
-    //     label {
-    //         // padding: 1%;
-    //     }
 
-    //     label:not(:last-child) {
-    //         // margin-bottom: 1%;
-    //     }
-    // }
     h1 {
         font-size: 4rem;
     }
@@ -53,12 +45,58 @@
         font-size: 2rem;
     }
 
+    h3 {
+        font-size: 2.5rem;
+    }
+
+    p {
+        text-align: center;
+    }
+
     .start {
         font-size: 1.6rem;
         width: 235px;
     }
 
-    footer {
-        // border-top: 1px dotted $black;
+    .questionScreen {
+        button {
+            padding: 13px;
+        }
+        .hintOnClick {
+            left: 3%;
+            i {
+                font-size: 3rem;
+            }
+        }
+        .hintToaster {
+            bottom: -25%;
+            left: calc(3% + 50px);
+            font-size: 1.6rem;
+            width: 150px;
+        }
+    }
+
+    @keyframes hintToasterFunction {
+        0% {
+            bottom: -25%;
+            left: calc(3% + 50px);
+        }
+
+        100% {
+            bottom: 0;
+            left: calc(3% + 50px);
+        }
+    }
+
+    @keyframes hintToasterFuncRev {
+        0% {
+            bottom: 0;
+            left: calc(3% + 50px);
+        }
+
+        100% {
+            bottom: -25%;
+            left: calc(3% + 50px);
+        }
     }
 }
